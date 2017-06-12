@@ -5,11 +5,13 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 import { DataService } from './data.service';
+import { InputComponent } from './input/input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataComponent
+    DataComponent,
+    InputComponent
   ],
   imports: [
     BrowserModule,
