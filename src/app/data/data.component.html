@@ -1,0 +1,7 @@
+
+<div id="wrapper">
+  <ul *ngIf="results">
+    <li *ngFor="let hit of results.hits.hits">
+      {{hit._source.body}}
+  </ul>
+</div>
