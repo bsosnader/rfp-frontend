@@ -5,13 +5,12 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 import { DataService } from './data.service';
-import { InputComponent } from './input/input.component';
+import { ElasticsearchService } from './elasticsearch.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataComponent,
-    InputComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +18,8 @@ import { InputComponent } from './input/input.component';
     JsonpModule
   ],
   providers: [
-    DataService
+    DataService,
+    ElasticsearchService
   ],
   bootstrap: [AppComponent]
 })

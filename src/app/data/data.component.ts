@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
+import { ElasticsearchService } from '../elasticsearch.service';
 import { Data } from '../data';
 
 @Component({
@@ -8,18 +9,23 @@ import { Data } from '../data';
   styleUrls: ['./data.component.css']
 })
 export class DataComponent implements OnInit {
+  value = '';
+  onEnter(value: string) {
+    this.value = value
+    this.getData(this.value);
+  };
   errorMessage: string;
   results: Data[];
   mode = 'Observable';
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: ElasticsearchService) { }
 
   ngOnInit() {
-    this.getData();
+    this.getData(this.value);
   }
 
-  getData() {
-    this.dataService.getData()
+  getData(v: string) {
+    this.dataService.getData(v)
       .subscribe(
         results => this.results = results,
         error => this.errorMessage = <any>error
