@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '../data.service';
 import { ElasticsearchService } from '../elasticsearch.service';
 import { Data } from '../data';
 
@@ -21,7 +20,7 @@ export class DataComponent implements OnInit {
   constructor(private dataService: ElasticsearchService) { }
 
   ngOnInit() {
-    this.getData(this.value);
+    //this.getData(this.value);
   }
 
   getData(v: string) {

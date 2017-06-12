@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import RxClient from 'rx-elasticsearch';
+import RxClient from './rx-elasticsearch/RxClient';
 import { Client, SearchResponse } from 'elasticsearch';
 import { Data } from './data';
 

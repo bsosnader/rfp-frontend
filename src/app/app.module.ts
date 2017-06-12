@@ -4,7 +4,6 @@ import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
-import { DataService } from './data.service';
 import { ElasticsearchService } from './elasticsearch.service';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { ElasticsearchService } from './elasticsearch.service';
     JsonpModule
   ],
   providers: [
-    DataService,
     ElasticsearchService
   ],
   bootstrap: [AppComponent]
