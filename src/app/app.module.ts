@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
@@ -13,8 +13,7 @@ import { ElasticsearchService } from './elasticsearch.service';
   ],
   imports: [
     BrowserModule,
-    HttpModule,
-    JsonpModule
+    HttpModule
   ],
   providers: [
     ElasticsearchService
