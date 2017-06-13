@@ -1,9 +1,15 @@
 export class Data {
-  date: string;
-  headingOne: string;
-  headingTwo: string;
-  service: string;
-  company: string;
-  type: string;
-  body: string;
+  _index: string;
+  _type: string;
+  _id: string;
+  _score: string;
+  _source: {
+    date: string;
+    headingOne: string;
+    service: string;
+    company: string;
+    headingTwo: string;
+    body: string;
+    type: string;
+  }
 }

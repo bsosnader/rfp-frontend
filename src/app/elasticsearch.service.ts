@@ -25,22 +25,42 @@ export class ElasticsearchService {
       host: 'https://search-elastic-test-yyco5dncwicwd2nufqhakzek2e.us-east-1.es.amazonaws.com/',
       log: 'trace'
     })
-
   }
 
-  getData(value): Promise<Data[]> {
+  getData(value: string): Promise<any> {
+    var test = [{term: {type: "Life Sciences"}}];
+    //create array of user inputted values for filters then use them in filter
     return this._client.search({
-      index: 'rfps2',
-      type: 'rfp2',
+      index: "rfps2",
+      type: "rfp2",
       body: {
         query: {
-          match: {
-            body: value
+          bool: {
+            must: [
+              {
+                match: {
+                  body: value
+                }
+              }
+            ],
+            filter: test
           }
         }
       }
-    }).catch((err) => {
-      console.error(err);
+    })
+  }
+
+  getMapping(): Promise<any> {
+    return this._client.indices.getMapping({
+      index: "rfps2",
+      type: "rfp2"
+    })
+  }
+
+  getFieldMapping(): Promise<any> {
+    return this._client.indices.getFieldMapping({
+      index:"rfps2",
+      fields: ["company"]
     })
   }
 }

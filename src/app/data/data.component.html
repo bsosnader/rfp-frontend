@@ -2,8 +2,14 @@
 <div id="wrapper">
   <input #box (keyup.enter)="onEnter(box.value)">
   <p>{{value}}</p>
-  <ul *ngIf="results">
-    <li *ngFor="let hit of results">
-      {{hit._source.body}}
+  <ul *ngIf="filters">
+    <li *ngFor="let filter of filters">
+      {{filter}}
+    </li>
+  </ul>
+  <ul *ngIf="results" >
+    <li *ngFor="let hit of results" >
+      <div class="results">{{hit._source.body}}</div>
+    </li>
   </ul>
 </div>
