@@ -3,7 +3,7 @@
   <input #box (keyup.enter)="onEnter(box.value)">
   <p>{{value}}</p>
   <ul *ngIf="results">
-    <li *ngFor="let hit of results.hits.hits">
+    <li *ngFor="let hit of results">
       {{hit._source.body}}
   </ul>
 </div>

@@ -12,7 +12,6 @@ export class DataComponent implements OnInit {
   onEnter(value: string) {
     this.value = value
     this.getData(this.value);
-    console.log(this.dataService.getFields());
   };
   errorMessage: string;
   results: Data[];
@@ -25,11 +24,7 @@ export class DataComponent implements OnInit {
   }
 
   getData(v: string) {
-    this.dataService.getData(v)
-      .subscribe(
-        results => this.results = results,
-        error => this.errorMessage = <any>error
-      );
+    this.dataService.getData(v).then(results => this.results = results);
   }
 
 }
