@@ -30,17 +30,42 @@ export class ElasticsearchService {
   getData(value) {
 
     return this._rxClient.search({
-      index: 'rfps',
-      type: 'rfp',
+      index: 'rfps2',
+      type: 'rfp2',
       body: {
         query: {
-          match: {
-            body: value
+          bool: {
+            must: [
+              { match: {
+                body: {
+                  query:value,
+                  operator:"and"
+                }
+
+              }}
+            ],
+            filter: [
+              {range:{date:{gte:"2017-05-31"}}},
+              {
+                term:
+                {
+                  type: "Life Sciences"
+                }
+
+              }
+            ]
           }
         }
       }
     })
       .catch(this.handleError);
+  }
+
+  getFields() {
+    return this._client.indices.getMapping({
+      index: 'rfps2',
+      type: 'rfp2'
+    })
   }
 
   private extractData(res: Response) {

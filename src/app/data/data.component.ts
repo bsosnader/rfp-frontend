@@ -12,6 +12,7 @@ export class DataComponent implements OnInit {
   onEnter(value: string) {
     this.value = value
     this.getData(this.value);
+    console.log(this.dataService.getFields());
   };
   errorMessage: string;
   results: Data[];
