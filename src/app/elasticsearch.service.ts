@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Response } from '@angular/http';
 
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import RxClient from './rx-elasticsearch/RxClient';
-import { Client, SearchResponse } from 'elasticsearch';
-import { Data } from './data';
+import { Client } from 'elasticsearch';
 
 
-
+//class for connecting to and querying an elasticsearch instance
 @Injectable()
 export class ElasticsearchService {
   private _client: Client;
-  private _rxClient: RxClient;
-  hits: Data[];
 
   constructor() {
     if (!this._client) this._connect();
@@ -27,12 +19,32 @@ export class ElasticsearchService {
     })
   }
 
-  getData(value: string): Promise<any> {
-    var test = [{term: {type: "Life Sciences"}}];
+  //method to search, with optional array of filters passed
+  getData(index: string, type: string, value: string, filters: Object[] = null): Promise<any> {
     //create array of user inputted values for filters then use them in filter
+
+    if (filters == null)
+    {
+      return this._client.search({
+        index: index,
+        type: type,
+        body: {
+          query: {
+            match: {
+              body: value
+            }
+          },
+          highlight: {
+            fields: {
+              body:{}
+            }
+          }
+        }
+      })
+    }
     return this._client.search({
-      index: "rfps2",
-      type: "rfp2",
+      index: index,
+      type: type,
       body: {
         query: {
           bool: {
@@ -43,24 +55,26 @@ export class ElasticsearchService {
                 }
               }
             ],
-            filter: test
+            filter: filters
           }
         }
       }
     })
   }
 
-  getMapping(): Promise<any> {
+  //method to get mapping of an index and type
+  getMapping(index: string, type: string): Promise<any> {
     return this._client.indices.getMapping({
-      index: "rfps2",
-      type: "rfp2"
+      index: index,
+      type: type
     })
   }
-
-  getFieldMapping(): Promise<any> {
+  //method to get mapping of particular fields of an index and type
+  getFieldMapping(index: string, type: string, fields: string[]): Promise<any> {
     return this._client.indices.getFieldMapping({
-      index:"rfps2",
-      fields: ["company"]
+      index:index,
+      type: type,
+      fields: fields
     })
   }
 }

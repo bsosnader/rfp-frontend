@@ -1,15 +1,30 @@
 
-<div id="wrapper">
-  <input #box (keyup.enter)="onEnter(box.value)">
-  <p>{{value}}</p>
-  <ul *ngIf="filters">
+<div>
+  <div class="row">
+        <div class="col-md-6">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg" placeholder="search" #term (keyup.enter)="doIt(term.value)" />
+                    <span class="input-group-btn">
+                        <button (click)="doIt(term.value)" class="btn btn-info btn-lg" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+        </div>
+	</div>
+  <h3>Filters</h3>
+  <ul *ngIf="filters" class="list-unstyled">
     <li *ngFor="let filter of filters">
-      {{filter}}
-    </li>
+      <label>{{filter}}:</label><input type="text" name="{{filter}}" [(ngModel)]="filtered[filter].type[filter]">
   </ul>
-  <ul *ngIf="results" >
-    <li *ngFor="let hit of results" >
-      <div class="results">{{hit._source.body}}</div>
+  <ul *ngIf="results" class="list-group">
+    <li *ngFor="let hit of results" class="list-group-item">
+      <div [innerHtml]="hit.highlight.body" class="results"></div>
+      <ul class="list-group">
+        <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
+          <strong>{{x.k}}</strong>: {{x.childValue}}
+        </li>
+      </ul>
     </li>
   </ul>
 </div>

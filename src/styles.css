@@ -1,10 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-#wrapper {
-  width: 700px;
-  margin: 0 auto;
-  text-align: left;
-  /*white-space: pre-wrap;*/
-}
+
 .results {
-  white-space: pre-wrap;
-}
+    white-space: pre-wrap;
+  }
+
+  em {
+    background: rgba(255,230,0,0.5);
+  }
