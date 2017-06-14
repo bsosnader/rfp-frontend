@@ -57,6 +57,11 @@ export class ElasticsearchService {
             ],
             filter: filters
           }
+        },
+        highlight: {
+          fields: {
+            body:{}
+          }
         }
       }
     })

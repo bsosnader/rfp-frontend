@@ -1,7 +1,7 @@
 
 <div>
   <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-md-offset-3">
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" placeholder="search" #term (keyup.enter)="doIt(term.value)" />
                     <span class="input-group-btn">
@@ -13,10 +13,20 @@
         </div>
 	</div>
   <h3>Filters</h3>
-  <ul *ngIf="filters" class="list-unstyled">
-    <li *ngFor="let filter of filters">
-      <label>{{filter}}:</label><input type="text" name="{{filter}}" [(ngModel)]="filtered[filter].type[filter]">
-  </ul>
+  <label>
+    <input type="checkbox" name="useFilter" [(ngModel)]="useFilter" />
+    Use Filter
+  </label>
+  <form *ngIf="filters && useFilter">
+    <div *ngFor="let filter of filters">
+      <div class="form-group row">
+        <label class="col-sm-1 col-form-label" for="{{filter}}">{{filter}}:</label>
+        <div class="col-sm-3">
+          <input class="form-control" type="text" id="{{filter}}" name="{{filter}}" [(ngModel)]="filtered[filter].term[filter]">
+        </div>
+      </div>
+    </div>
+  </form>
   <ul *ngIf="results" class="list-group">
     <li *ngFor="let hit of results" class="list-group-item">
       <div [innerHtml]="hit.highlight.body" class="results"></div>

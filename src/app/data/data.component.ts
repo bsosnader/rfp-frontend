@@ -9,20 +9,32 @@ import { ElasticsearchService } from '../elasticsearch.service';
 })
 export class DataComponent implements OnInit {
   value = '';
-  x = [{term: {type: "Life Sciences"}}, {term: {company: "Tesaro"}}];
-  doIt(value: string) {
-    this.value = value
-    this.getSearch("rfps2", "rfp2", this.value);
-  };
-
   results: Object[];
   mappings;
   filters: String[];
   filtered;
+  useFilter: boolean;
+
+  doIt(value: string) {
+    this.value = value
+    if (this.useFilter) {
+      this.getSearch("rfps2", "rfp2", this.value, Object.keys(this.filtered).map((key) => {
+        if (this.filtered[key].term[key] != ''){
+          return this.filtered[key];
+        }
+      }).filter((n) => {return n != undefined}));
+    } else {
+      this.getSearch("rfps2", "rfp2", this.value);
+    }
+
+  };
+
+
 
   constructor(private dataService: ElasticsearchService) {
     this.filters = [];
-    this.filtered = new Object;
+    this.filtered = [];
+    this.useFilter = false;
    }
 
   ngOnInit() {
@@ -60,7 +72,7 @@ export class DataComponent implements OnInit {
           if (this.mappings.hasOwnProperty(key)) { //ensures proto stuff doesn't get used
             if(this.mappings[key].type == "keyword" || this.mappings[key].type == "date") {
               this.filters.push(key);
-              this.filtered[key] = {type: {[key]: ''}};
+              this.filtered[key] = {term: {[key]: ''}};
             }
           }
         }
