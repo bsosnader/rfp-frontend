@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 
 import { ElasticsearchService } from '../elasticsearch.service';
+import { NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-data',
@@ -13,10 +14,26 @@ export class DataComponent implements OnInit {
   mappings;
   filters: String[];
   filtered;
+  dateModel;
   useFilter: boolean;
 
   doIt(value: string) {
     this.value = value
+    if (this.dateModel) {
+      var month;
+      var day;
+      if (this.dateModel.month < 10) {
+        month = "0" + this.dateModel.month;
+      } else {
+        month = this.dateModel.month;
+      }
+      if (this.dateModel.day < 10) {
+        day = "0" + this.dateModel.day;
+      } else {
+        day = this.dateModel.day;
+      }
+      this.filtered["date"] = {range: {date: {gte:""+this.dateModel.year + "-" + month + "-" + day}}}
+    }
     if (this.useFilter) {
       this.getSearch("rfps2", "rfp2", this.value, Object.keys(this.filtered).map((key) => {
         if (this.filtered[key].term[key] != ''){
@@ -31,10 +48,12 @@ export class DataComponent implements OnInit {
 
 
 
-  constructor(private dataService: ElasticsearchService) {
+  constructor(private dataService: ElasticsearchService, dateConfig: NgbDatepickerConfig) {
     this.filters = [];
     this.filtered = [];
     this.useFilter = false;
+    var today = new Date();
+    dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
    }
 
   ngOnInit() {
@@ -70,7 +89,7 @@ export class DataComponent implements OnInit {
         this.mappings = str.split('.').reduce((a, b) => a[b], data); //accesses object properties using a string
         for (let key in this.mappings) {
           if (this.mappings.hasOwnProperty(key)) { //ensures proto stuff doesn't get used
-            if(this.mappings[key].type == "keyword" || this.mappings[key].type == "date") {
+            if(this.mappings[key].type == "keyword") {
               this.filters.push(key);
               this.filtered[key] = {term: {[key]: ''}};
             }

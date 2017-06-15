@@ -20,23 +20,68 @@
   <form *ngIf="filters && useFilter">
     <div *ngFor="let filter of filters">
       <div class="form-group row">
-        <label class="col-sm-1 col-form-label" for="{{filter}}">{{filter}}:</label>
-        <div class="col-sm-3">
+        <label class="col-1 col-form-label" for="{{filter}}">{{filter}}:</label>
+        <div class="col-3">
           <input class="form-control" type="text" id="{{filter}}" name="{{filter}}" [(ngModel)]="filtered[filter].term[filter]">
         </div>
       </div>
     </div>
+    <div class="form-group row">
+      <label class="col-1 col-form-label" for="date">date:</label>
+      <div class="col-3">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-MM-dd"
+            name="date" id="date" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-addon" (click)="d.toggle()" >
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </form>
+  <pre>Model: {{model | json}}</pre>
   <ul *ngIf="results" class="list-group">
     <li *ngFor="let hit of results" class="list-group-item">
-      <h3 [innerHtml]="hit.highlight.headingOne"></h3>
-      <h4 [innerHtml]="hit.highlight.headingTwo"></h4>
-      <div [innerHtml]="hit.highlight.body" class="results"></div>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
-        [attr.aria-expanded]="!isCollapsed" attr.aria-controls="{{hit._id}}">
-        Toggle
-      </button>
-      <div id="{{hit._id}}" [ngbCollapse]="isCollapsed">
+
+      <!-- <h4 [innerHtml]="hit.highlight.headingOne"></h4>
+      <h5 [innerHtml]="hit.highlight.headingTwo"></h5>
+      <div [innerHtml]="hit.highlight.body" class="results"></div> -->
+      <ul class="list-group">
+        <li *ngFor="let x of hit.highlight | values:'key':true" class="list-group-item">
+          <div class="row">
+            <div class="col-3" [innerHtml]="x.k"></div>
+            <div class="col-9" [innerHtml]="x.childValue"></div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div [innerHtml]="hit.highlight.body"></div>
+        </li>
+        <li class="list-group-item">
+          <ngb-accordion #acc="ngbAccordion">
+            <ngb-panel title="Full Details">
+              <ng-template ngbPanelContent>
+                <ul class="list-group">
+                  <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
+                    <strong>{{x.k}}: </strong> {{x.childValue}}
+                  </li>
+                  <li class="list-group-item">
+                    <strong>body</strong>: <div class="results">{{hit._source.body}}</div>
+                  </li>
+                </ul>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+        </li>
+      </ul>
+
+      <!-- <div class="row">
+        <button type="button" class="btn btn-outline-primary btn-sm" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="isCollapsed" attr.aria-controls="{{hit._id}}">
+          Toggle
+        </button>
+      </div>
+      <div id="{{hit._id}}" [ngbCollapse]="!isCollapsed">
         <ul class="list-group">
           <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
             <strong>{{x.k}}</strong>: {{x.childValue}}
@@ -45,7 +90,7 @@
             <strong>body</strong>: <div class="results">{{hit._source.body}}</div>
           </li>
         </ul>
-      </div>
+      </div> -->
     </li>
   </ul>
 </div>

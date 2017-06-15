@@ -10,7 +10,6 @@ export class ValuesPipe implements PipeTransform {
     let keyArr: any[] = Object.keys(value),
         dataArr = [],
         keyProp = args[0] ? args[0] : 'key';
-
     if(args[1]) {
       keyArr.sort();
     }
