@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 import { ElasticsearchService } from './elasticsearch.service';
 import { ValuesPipe } from './values.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ValuesPipe } from './values.pipe';
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot()
   ],
   providers: [
     ElasticsearchService

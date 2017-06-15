@@ -30,14 +30,13 @@ export class ElasticsearchService {
         type: type,
         body: {
           query: {
-            match: {
-              body: value
+            multi_match: {
+              query: value,
+              fields: ["heading*^3", "body"]
             }
           },
           highlight: {
-            fields: {
-              body:{}
-            }
+            fields: [{body:{}},{headingOne:{}},{headingTwo:{}}]
           }
         }
       })
@@ -50,8 +49,9 @@ export class ElasticsearchService {
           bool: {
             must: [
               {
-                match: {
-                  body: value
+                multi_match: {
+                  query: value,
+                  fields: ["heading*^3", "body"]
                 }
               }
             ],
@@ -59,9 +59,7 @@ export class ElasticsearchService {
           }
         },
         highlight: {
-          fields: {
-            body:{}
-          }
+          fields: [{body:{}},{headingOne:{}},{headingTwo:{}}]
         }
       }
     })

@@ -6,3 +6,7 @@
   em {
     background: rgba(255,230,0,0.5);
   }
+
+  body {
+    font-size: .8rem;
+  }

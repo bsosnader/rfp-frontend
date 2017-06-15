@@ -1,12 +1,12 @@
 
 <div>
   <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 offset-md-3">
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" placeholder="search" #term (keyup.enter)="doIt(term.value)" />
                     <span class="input-group-btn">
-                        <button (click)="doIt(term.value)" class="btn btn-info btn-lg" type="button">
-                            <i class="glyphicon glyphicon-search"></i>
+                        <button (click)="doIt(term.value)" class="btn btn-info btn-sm" type="button">
+                            Search
                         </button>
                     </span>
                 </div>
@@ -29,12 +29,23 @@
   </form>
   <ul *ngIf="results" class="list-group">
     <li *ngFor="let hit of results" class="list-group-item">
+      <h3 [innerHtml]="hit.highlight.headingOne"></h3>
+      <h4 [innerHtml]="hit.highlight.headingTwo"></h4>
       <div [innerHtml]="hit.highlight.body" class="results"></div>
-      <ul class="list-group">
-        <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
-          <strong>{{x.k}}</strong>: {{x.childValue}}
-        </li>
-      </ul>
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" attr.aria-controls="{{hit._id}}">
+        Toggle
+      </button>
+      <div id="{{hit._id}}" [ngbCollapse]="isCollapsed">
+        <ul class="list-group">
+          <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
+            <strong>{{x.k}}</strong>: {{x.childValue}}
+          </li>
+          <li class="list-group-item">
+            <strong>body</strong>: <div class="results">{{hit._source.body}}</div>
+          </li>
+        </ul>
+      </div>
     </li>
   </ul>
 </div>
