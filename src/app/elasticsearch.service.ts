@@ -19,7 +19,7 @@ export class ElasticsearchService {
   }
 
   //method to search, with optional array of filters passed
-  getData(index: string, type: string, value: string, filters: Object[] = null): Promise<any> {
+  getData(index: string, type: string, value: string, textFields: String[], highlightFields: Object, filters: Object[] = null): Promise<any> {
     //create array of user inputted values for filters then use them in filter
 
     if (filters == null)
@@ -31,11 +31,11 @@ export class ElasticsearchService {
           query: {
             multi_match: {
               query: value,
-              fields: ["heading*^3", "body"]
+              fields: textFields
             }
           },
           highlight: {
-            fields: [{body:{}},{headingOne:{}},{headingTwo:{}}]
+            fields: highlightFields
           }
         }
       })
@@ -50,7 +50,7 @@ export class ElasticsearchService {
               {
                 multi_match: {
                   query: value,
-                  fields: ["heading*^3", "body"] //not flexible
+                  fields: textFields
                 }
               }
             ],
@@ -58,7 +58,7 @@ export class ElasticsearchService {
           }
         },
         highlight: {
-          fields: [{body:{}},{headingOne:{}},{headingTwo:{}}] //not flexible
+          fields: highlightFields
         }
       }
     })

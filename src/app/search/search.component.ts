@@ -13,6 +13,8 @@ export class SearchComponent implements OnInit {
   results: Object[];
   mappings;
   filters: String[];
+  textFields: String[];
+  highlightFields;
   filtered;
   dateModel;
   useFilter: boolean;
@@ -21,7 +23,9 @@ export class SearchComponent implements OnInit {
 
   constructor(private elasticSearchService: ElasticsearchService, dateConfig: NgbDatepickerConfig) {
     this.filters = [];
+    this.textFields = [];
     this.filtered = [];
+    this.highlightFields = [];
     this.useFilter = false;
 
     //limits cal to today and earlier. sidenote- why the hell does js count months from 0??
@@ -76,14 +80,14 @@ export class SearchComponent implements OnInit {
   //method to search, passes along parameters to elasticsearch service
   getSearch(index: string, type: string, value: string, filters: Object[] = null) {
     if (filters == null) {
-      this.elasticSearchService.getData(index, type, value)
+      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields)
       .then((data) => {
         this.results = data.hits.hits;
       }).catch((err) => {
         console.error(err)
       })
     } else {
-      this.elasticSearchService.getData(index, type, value, filters)
+      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields, filters)
       .then((data) => {
         this.results = data.hits.hits
       }).catch((err) => {
@@ -107,6 +111,9 @@ export class SearchComponent implements OnInit {
                                                         the keys so it's easy to fill them with user data.
                                                         Since there's an indeterminate amount of keywords,
                                                         and we won't know the order, need to have this context*/
+            } else if (this.mappings[key].type == "text") {
+              this.textFields.push(key);
+              this.highlightFields.push({[key]: {}}); 
             }
           }
         }
