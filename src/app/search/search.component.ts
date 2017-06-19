@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit {
   //method to search, passes along parameters to elasticsearch service
   getSearch(index: string, type: string, value: string, filters: Object[] = null) {
     if (filters == null) {
-      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields)
+      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields) //TODO use local parameters
       .then((data) => {
         this.results = data.hits.hits;
       }).catch((err) => {
@@ -97,8 +97,8 @@ export class SearchComponent implements OnInit {
 
   }
 
-  //method to get keywords that can be filtered
-  getFilterableFields(index: string, type: string) {
+  //method to get keywords that can be filtered and text that can be searched
+  getFilterableFields(index: string, type: string) { //TODO change name
     this.elasticSearchService.getMapping(index, type)
       .then((data) => {
         var str = index+".mappings."+type+".properties";
@@ -113,7 +113,7 @@ export class SearchComponent implements OnInit {
                                                         and we won't know the order, need to have this context*/
             } else if (this.mappings[key].type == "text") {
               this.textFields.push(key);
-              this.highlightFields.push({[key]: {}}); 
+              this.highlightFields.push({[key]: {}});
             }
           }
         }
