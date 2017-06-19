@@ -1,22 +1,26 @@
-
+<!-- spaghetti is my favorite kind of code... wait I mean pasta -->
 <div>
   <div class="row">
         <div class="col-md-6 offset-md-3">
-                <div class="input-group col-md-12">
-                    <input type="text" class="form-control input-lg" placeholder="search" #term (keyup.enter)="doIt(term.value)" />
+                <div class="input-group col-md-12"> <!-- passes value in textbox to DataComponent's value on enter or button press-->
+                    <input type="text" class="form-control input-lg" placeholder="search" #term (keyup.enter)="searchPress(term.value)" />
                     <span class="input-group-btn">
-                        <button (click)="doIt(term.value)" class="btn btn-info btn-sm" type="button">
-                            Search
+                        <button (click)="searchPress(term.value)" class="btn btn-info btn-sm" type="button">
+                          <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </span>
                 </div>
         </div>
 	</div>
+
   <h3>Filters</h3>
   <label>
     <input type="checkbox" name="useFilter" [(ngModel)]="useFilter" />
     Use Filter
   </label>
+  <!--when button is checked, populates list with all keywords from elasticsearch
+  gives each a unique ID, when one is populated passes that over to the filtered array
+  well, it's not really an array, (see getFilterableFields for details), but we can treat it like one-->
   <form *ngIf="filters && useFilter">
     <div *ngFor="let filter of filters">
       <div class="form-group row">
@@ -26,36 +30,39 @@
         </div>
       </div>
     </div>
+    <!-- date is special because it's not a keyword, it's a date type. we also want to filter it a different way,
+    and it has a different input method. so it gets its own section -->
     <div class="form-group row">
       <label class="col-1 col-form-label" for="date">date:</label>
       <div class="col-3">
         <div class="input-group">
           <input class="form-control" placeholder="yyyy-MM-dd"
-            name="date" id="date" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+            name="date" id="date" [(ngModel)]="dateModel" ngbDatepicker #d="ngbDatepicker">
           <div class="input-group-addon" (click)="d.toggle()" >
             <i class="fa fa-calendar" aria-hidden="true"></i>
           </div>
         </div>
       </div>
     </div>
-
   </form>
-  <pre>Model: {{model | json}}</pre>
   <ul *ngIf="results" class="list-group">
     <li *ngFor="let hit of results" class="list-group-item">
-
-      <!-- <h4 [innerHtml]="hit.highlight.headingOne"></h4>
-      <h5 [innerHtml]="hit.highlight.headingTwo"></h5>
-      <div [innerHtml]="hit.highlight.body" class="results"></div> -->
       <ul class="list-group">
+        <!-- shows snippet of results containing search term
+        the values pipe allows us to iterate through an object's properties as if it were an array,
+        because ngFor normally doesn't allow that (boo) -->
         <li *ngFor="let x of hit.highlight | values:'key':true" class="list-group-item">
           <div class="row">
-            <div class="col-3" [innerHtml]="x.k"></div>
+            <div class="col-3" [innerHtml]="x.k"></div> <!-- innerHtml makes sure highlighting works properly
+                                                            instead of just showing html tags as plain text-->
             <div class="col-9" [innerHtml]="x.childValue"></div>
           </div>
         </li>
         <li class="list-group-item">
           <div [innerHtml]="hit.highlight.body"></div>
+          <!-- body is separate here and below because the values pipe ignores 
+            the body field because 1: we know there will always be a body, so there's no need to be flexible about that
+            and 2: allows us to choose exactly where we want body to be displayed (in this case, below all the other sections) -->
         </li>
         <li class="list-group-item">
           <ngb-accordion #acc="ngbAccordion">
@@ -74,23 +81,6 @@
           </ngb-accordion>
         </li>
       </ul>
-
-      <!-- <div class="row">
-        <button type="button" class="btn btn-outline-primary btn-sm" (click)="isCollapsed = !isCollapsed"
-          [attr.aria-expanded]="isCollapsed" attr.aria-controls="{{hit._id}}">
-          Toggle
-        </button>
-      </div>
-      <div id="{{hit._id}}" [ngbCollapse]="!isCollapsed">
-        <ul class="list-group">
-          <li *ngFor="let x of hit._source | values:'key':true" class="list-group-item">
-            <strong>{{x.k}}</strong>: {{x.childValue}}
-          </li>
-          <li class="list-group-item">
-            <strong>body</strong>: <div class="results">{{hit._source.body}}</div>
-          </li>
-        </ul>
-      </div> -->
     </li>
   </ul>
 </div>

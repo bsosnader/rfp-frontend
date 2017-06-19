@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { DataComponent } from './data/data.component';
+import { SearchComponent } from './search/search.component';
 import { ElasticsearchService } from './elasticsearch.service';
 import { ValuesPipe } from './values.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
-    DataComponent,
+    SearchComponent,
     ValuesPipe,
   ],
   imports: [

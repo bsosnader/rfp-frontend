@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Client } from 'elasticsearch';
 
 
-//class for connecting to and querying an elasticsearch instance
 @Injectable()
 export class ElasticsearchService {
   private _client: Client;
@@ -51,7 +50,7 @@ export class ElasticsearchService {
               {
                 multi_match: {
                   query: value,
-                  fields: ["heading*^3", "body"]
+                  fields: ["heading*^3", "body"] //not flexible
                 }
               }
             ],
@@ -59,7 +58,7 @@ export class ElasticsearchService {
           }
         },
         highlight: {
-          fields: [{body:{}},{headingOne:{}},{headingTwo:{}}]
+          fields: [{body:{}},{headingOne:{}},{headingTwo:{}}] //not flexible
         }
       }
     })
