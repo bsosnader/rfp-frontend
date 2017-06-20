@@ -2,41 +2,35 @@ import { Component, OnInit} from '@angular/core';
 import { JsonPipe } from '@angular/common';
 
 import { ElasticsearchService } from '../elasticsearch.service';
-import { NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
 })
 export class SearchComponent implements OnInit {
-  value = '';
-  results: Object[];
-  mappings;
-  filters: String[];
-  textFields: String[];
-  highlightFields;
-  aggsFields = {};
-  aggsResults;
-  filtered;
   dateModel;
-  useFilter: boolean;
+  results;
+  filters = [];
+  value = '';
+  mappings = {}
+  textFields = [];
+  highlightFields = [];
+  aggsFields = {};
+  aggsResults = {};
+  filtered = {};
+  useFilter = false;
   index = "rfps2";
   type = "rfp2";
 
-  constructor(private elasticSearchService: ElasticsearchService, dateConfig: NgbDatepickerConfig) {
-    this.filters = [];
-    this.textFields = [];
-    this.filtered = [];
-    this.highlightFields = [];
-    this.useFilter = false;
-
-    //limits cal to today and earlier. sidenote- why the hell does js count months from 0??
-    var today = new Date();
-    dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
-   }
+  constructor(private elasticSearchService: ElasticsearchService, private dateConfig: NgbDatepickerConfig) { }
 
   ngOnInit() {
+    //limits cal to today and earlier. sidenote- why the hell does js count months from 0??
+    let today = new Date();
+    this.dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
+
     this.getFilterableFields(this.index, this.type);
   }
 
@@ -44,10 +38,7 @@ export class SearchComponent implements OnInit {
   searchPress(value: string) {
     this.value = value
 
-    console.log(new JsonPipe().transform(this.aggsFields));
-    this.getAggs(this.index, this.type, this.aggsFields);
-
-    var nonBlankFilters = Object.keys(this.filtered).map((key) => {
+    let nonBlankFilters = Object.keys(this.filtered).map((key) => {
       if (this.filtered[key].term[key] != ''){
         return this.filtered[key];
       }
@@ -88,7 +79,7 @@ export class SearchComponent implements OnInit {
   }
 
   //method to get keywords that can be filtered and text that can be searched
-  getFilterableFields(index: string, type: string) { //TODO change name
+  getFilterableFields(index: string, type: string) { //TODO change name to be better description
     this.elasticSearchService.getMapping(index, type)
       .then((data) => {
         var str = index+".mappings."+type+".properties";
@@ -101,7 +92,7 @@ export class SearchComponent implements OnInit {
                                                         the keys so it's easy to fill them with user data.
                                                         Since there's an indeterminate amount of keywords,
                                                         and we won't know the order, need to have this context*/
-              this.aggsFields[key] = {terms: { field: key } };
+              this.aggsFields[key] = {terms: { field: key } }; //sets up object structure to get all values used in fields for autocomplete
             } else if (this.mappings[key].type == "text") {
               this.textFields.push(key);
               this.highlightFields.push({[key]: {}});

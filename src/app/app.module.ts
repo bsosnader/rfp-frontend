@@ -1,30 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { SearchComponent } from './search/search.component';
-import { ElasticsearchService } from './elasticsearch.service';
-import { ValuesPipe } from './values.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { Ng2CompleterModule } from 'ng2-completer';
-import { AggsPipe } from './aggs.pipe';
+import { AppComponent } from './app.component';
+import { SharedModule } from './shared/shared.module';
+import { SearchComponent, SearchModule } from './search/index';
+import { ElasticsearchService } from './elasticsearch.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    ValuesPipe,
-    AggsPipe,
   ],
   imports: [
     BrowserModule,
-    HttpModule,
-    FormsModule,
-    NgxPaginationModule,
-    Ng2CompleterModule,
+    SharedModule,
+    SearchModule,
     NgbModule.forRoot()
   ],
   providers: [
