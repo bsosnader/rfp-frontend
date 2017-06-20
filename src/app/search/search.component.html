@@ -26,7 +26,7 @@
       <div class="form-group row">
         <label class="col-1 col-form-label" for="{{filter}}">{{filter}}:</label>
         <div class="col-3">
-          <input class="form-control" type="text" id="{{filter}}" name="{{filter}}" [(ngModel)]="filtered[filter].term[filter]">
+          <ng2-completer [datasource]="aggsResults | aggs:filter" [minSearchLength]="1" id="{{filter}}" name="{{filter}}" [(ngModel)]="filtered[filter].term[filter]"></ng2-completer>
         </div>
       </div>
     </div>
@@ -46,20 +46,18 @@
     </div>
   </form>
   <ul *ngIf="results" class="list-group">
-    <li *ngFor="let hit of results" class="list-group-item">
+    <li *ngFor="let hit of results | paginate: {itemsPerPage:5, currentPage: p}" class="list-group-item">
       <ul class="list-group">
         <!-- shows snippet of results containing search term
         the values pipe allows us to iterate through an object's properties as if it were an array,
         because ngFor normally doesn't allow that (boo) -->
         <li *ngFor="let x of hit.highlight | values:'key':true" class="list-group-item">
-          <div class="row">
             <!--<div class="col-3" [innerHtml]="x.k"></div>--> <!-- innerHtml makes sure highlighting works properly
                                                             instead of just showing html tags as plain text-->
-            <div [innerHtml]="x.childValue"></div>
-          </div>
+            <strong>{{x.k}}: </strong><div [innerHtml]="x.childValue"></div>
         </li>
         <li class="list-group-item">
-          <div [innerHtml]="hit.highlight.body"></div>
+          <strong>Body: </strong><div [innerHtml]="hit.highlight.body"></div>
           <!-- body is separate here and below because the values pipe ignores
             the body field because 1: we know there will always be a body, so there's no need to be flexible about that
             and 2: allows us to choose exactly where we want body to be displayed (in this case, below all the other sections) -->
@@ -83,4 +81,7 @@
       </ul>
     </li>
   </ul>
+  <div *ngIf="results">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
 </div>

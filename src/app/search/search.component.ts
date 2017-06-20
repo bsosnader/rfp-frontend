@@ -1,4 +1,5 @@
 import { Component, OnInit} from '@angular/core';
+import { JsonPipe } from '@angular/common';
 
 import { ElasticsearchService } from '../elasticsearch.service';
 import { NgbDatepickerConfig, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +16,8 @@ export class SearchComponent implements OnInit {
   filters: String[];
   textFields: String[];
   highlightFields;
+  aggsFields = {};
+  aggsResults;
   filtered;
   dateModel;
   useFilter: boolean;
@@ -37,8 +40,13 @@ export class SearchComponent implements OnInit {
     this.getFilterableFields(this.index, this.type);
   }
 
+  //performs search on event, uses elasticsearch service
   searchPress(value: string) {
     this.value = value
+
+    console.log(new JsonPipe().transform(this.aggsFields));
+    this.getAggs(this.index, this.type, this.aggsFields);
+
     var nonBlankFilters = Object.keys(this.filtered).map((key) => {
       if (this.filtered[key].term[key] != ''){
         return this.filtered[key];
@@ -47,9 +55,16 @@ export class SearchComponent implements OnInit {
                                                  there's probably a better way to do this (and to do everything else)
                                                  but I don't know it, so, sorry about that */
     this.getDate(nonBlankFilters);
-    this.getSearch(this.index, this.type, this.value, nonBlankFilters);
+    if (!this.useFilter) { nonBlankFilters = []}; //there's a better way to set this up!!
+    this.elasticSearchService.getData(this.index, this.type, value, this.textFields, this.highlightFields, nonBlankFilters)
+    .then((data) => {
+      this.results = data.hits.hits
+    }).catch((err) => {
+      console.error(err)
+    })
 
   }
+
 
   /*this just gets the inputted date and converts it to proper format, then adds
   it to an array of filters. yay for pass by value (even if it's just a reference 'value')*/
@@ -71,17 +86,6 @@ export class SearchComponent implements OnInit {
       filters.push({range: {date: {gte:""+this.dateModel.year + "-" + month + "-" + day}}});
     }
   }
-  //method to search, passes along parameters to elasticsearch service
-  getSearch(index: string, type: string, value: string, filters: Object[]) {
-      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields, filters)
-      .then((data) => {
-        this.results = data.hits.hits
-      }).catch((err) => {
-        console.error(err)
-      })
-
-
-  }
 
   //method to get keywords that can be filtered and text that can be searched
   getFilterableFields(index: string, type: string) { //TODO change name
@@ -97,12 +101,25 @@ export class SearchComponent implements OnInit {
                                                         the keys so it's easy to fill them with user data.
                                                         Since there's an indeterminate amount of keywords,
                                                         and we won't know the order, need to have this context*/
+              this.aggsFields[key] = {terms: { field: key } };
             } else if (this.mappings[key].type == "text") {
               this.textFields.push(key);
               this.highlightFields.push({[key]: {}});
             }
           }
         }
+      }).then((d) => {
+        this.getAggs(index, type, this.aggsFields) //I have no idea how async and promise stuff works :(
+      }).catch((err) => {
+        console.error(err);
+      })
+  }
+
+  //method to get values for keywords for use in autocomplete feature
+  getAggs(index: string, type: string, agf: Object) {
+    this.elasticSearchService.getAggs(index, type, agf)
+      .then((data) => {
+        this.aggsResults = data;
       }).catch((err) => {
         console.error(err);
       })
