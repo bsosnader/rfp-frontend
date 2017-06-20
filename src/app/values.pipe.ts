@@ -20,7 +20,9 @@ export class ValuesPipe implements PipeTransform {
         let retObj = {
           childValue: value[key]
         };
-        retObj[keyProp] = key;
+        //converts camelCase to Whatever This Is
+        //the hope is that all the keys are in camelCase 
+        retObj[keyProp] = key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
         dataArr.push(retObj);
 
       }

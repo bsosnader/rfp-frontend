@@ -39,21 +39,15 @@ export class SearchComponent implements OnInit {
 
   searchPress(value: string) {
     this.value = value
-
-    if (this.useFilter) {
-
-      var nonBlankFilters = Object.keys(this.filtered).map((key) => {
-        if (this.filtered[key].term[key] != ''){
-          return this.filtered[key];
-        }
-      }).filter((n) => {return n != undefined}); /*messy way of ensuring blank filters don't get passed to search
+    var nonBlankFilters = Object.keys(this.filtered).map((key) => {
+      if (this.filtered[key].term[key] != ''){
+        return this.filtered[key];
+      }
+    }).filter((n) => {return n != undefined}); /*messy way of ensuring blank filters don't get passed to search
                                                  there's probably a better way to do this (and to do everything else)
                                                  but I don't know it, so, sorry about that */
-      this.getDate(nonBlankFilters);
-      this.getSearch(this.index, this.type, this.value, nonBlankFilters);
-    } else {
-      this.getSearch(this.index, this.type, this.value);
-    }
+    this.getDate(nonBlankFilters);
+    this.getSearch(this.index, this.type, this.value, nonBlankFilters);
 
   }
 
@@ -78,22 +72,14 @@ export class SearchComponent implements OnInit {
     }
   }
   //method to search, passes along parameters to elasticsearch service
-  getSearch(index: string, type: string, value: string, filters: Object[] = null) {
-    if (filters == null) {
-      this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields) //TODO use local parameters
-      .then((data) => {
-        this.results = data.hits.hits;
-      }).catch((err) => {
-        console.error(err)
-      })
-    } else {
+  getSearch(index: string, type: string, value: string, filters: Object[]) {
       this.elasticSearchService.getData(index, type, value, this.textFields, this.highlightFields, filters)
       .then((data) => {
         this.results = data.hits.hits
       }).catch((err) => {
         console.error(err)
       })
-    }
+
 
   }
 

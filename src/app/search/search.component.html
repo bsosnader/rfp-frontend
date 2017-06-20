@@ -53,14 +53,14 @@
         because ngFor normally doesn't allow that (boo) -->
         <li *ngFor="let x of hit.highlight | values:'key':true" class="list-group-item">
           <div class="row">
-            <div class="col-3" [innerHtml]="x.k"></div> <!-- innerHtml makes sure highlighting works properly
+            <!--<div class="col-3" [innerHtml]="x.k"></div>--> <!-- innerHtml makes sure highlighting works properly
                                                             instead of just showing html tags as plain text-->
-            <div class="col-9" [innerHtml]="x.childValue"></div>
+            <div [innerHtml]="x.childValue"></div>
           </div>
         </li>
         <li class="list-group-item">
           <div [innerHtml]="hit.highlight.body"></div>
-          <!-- body is separate here and below because the values pipe ignores 
+          <!-- body is separate here and below because the values pipe ignores
             the body field because 1: we know there will always be a body, so there's no need to be flexible about that
             and 2: allows us to choose exactly where we want body to be displayed (in this case, below all the other sections) -->
         </li>

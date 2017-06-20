@@ -19,27 +19,9 @@ export class ElasticsearchService {
   }
 
   //method to search, with optional array of filters passed
-  getData(index: string, type: string, value: string, textFields: String[], highlightFields: Object, filters: Object[] = null): Promise<any> {
-    //create array of user inputted values for filters then use them in filter
+  getData(index: string, type: string, value: string, textFields: String[], highlightFields: Object, filters: Object[]): Promise<any> {
+    //create array of user inputted values for filters then use them in filter, if it's empty, nothing is filtered
 
-    if (filters == null)
-    {
-      return this._client.search({
-        index: index,
-        type: type,
-        body: {
-          query: {
-            multi_match: {
-              query: value,
-              fields: textFields
-            }
-          },
-          highlight: {
-            fields: highlightFields
-          }
-        }
-      })
-    }
     return this._client.search({
       index: index,
       type: type,
