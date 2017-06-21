@@ -23,8 +23,13 @@ export class UploadService {
                .catch(this.handleError);
   }
 
+  /**private extractData(res : Response) {
+    let body = res.json();
+    return body.data || {};
+  }*/
+
   private handleError(error: any) : Promise<any> {
-    console.error('An error occurred', error) //TODO remove this
+    console.error('HEY HEY An error occurred', error) //TODO remove this
     return Promise.reject(error.message || error)
   }
 

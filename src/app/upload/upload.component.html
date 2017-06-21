@@ -1,3 +1,10 @@
-<p>
-  upload works!
-</p>
+<h3>Someday you'll be able to upload RFPs on this page!</h3>
+<form [formGroup]="uploadForm" (ngSubmit)="doUpload($event)">
+  <input formControlName="companydoc" type="file" /><br>
+  <input formControlName="companyname" type="text" placeholder="Name of Company"><br>
+  <input formControlName="companytype" type="text" placeholder="Field of Work">
+  <button type="submit">Upload</button>
+</form>
+<div>{{compname}}</div>
+<div>{{comptype}}</div>
+<div>{{compdoc}}</div>
