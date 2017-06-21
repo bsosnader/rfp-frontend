@@ -8,9 +8,7 @@ import { AggsPipe } from './aggs.pipe';
 
 @NgModule({
   imports: [
-    CommonModule,
-    HttpModule,
-    FormsModule
+    CommonModule
   ],
   declarations: [
     ValuesPipe,
