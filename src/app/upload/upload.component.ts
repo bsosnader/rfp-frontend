@@ -18,6 +18,7 @@ export class UploadComponent implements OnInit {
   compdoc: String;
   date = {};
 
+
   public uploadForm = this.fb.group({
     companyname: ["", Validators.required],
     companytype: ["",Validators.required],
@@ -43,9 +44,19 @@ export class UploadComponent implements OnInit {
       });
   }
 
+  postRequest() : void {
+    var obj = JSON.parse('{"name":"larry","type":"libra","age":"22"}');
+    this.uploadService.postRequest(obj)
+        .then((resp) => {
+          this.response = resp;
+          console.log(this.response);
+        }).catch((err) => {
+          console.error(err);
+        })
+  }
 
   ngOnInit() {
-    this.getResponse(); //response will be logged at start of app!
+    this.postRequest(); //response will be logged at start of app!
 
     let today = new Date();
     this.dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
@@ -54,15 +65,18 @@ export class UploadComponent implements OnInit {
   constructor(public fb: FormBuilder,   private uploadService : UploadService, private dateConfig: NgbDatepickerConfig){}
 
   doUpload(event) {
-    console.log(event);
-    console.log(this.uploadForm.value);
+    //console.log(event);
+    //console.log(this.uploadForm.value);
     this.compname = this.uploadForm.controls.companyname.value;
     this.comptype = this.uploadForm.controls.companytype.value;
     this.compdoc = this.uploadForm.controls.companydoc.value;
-    
+
     this.date["day"] = this.uploadForm.controls.companydate.value.day;
     this.date["month"] = this.uploadForm.controls.companydate.value.month;
     this.date["year"]= this.uploadForm.controls.companydate.value.year;
-    this.getResponse();
+
+
+
+    console.log(this.postRequest());
   }
 }
