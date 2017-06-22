@@ -19,8 +19,10 @@ export class UploadService {
   getResponse() : Promise<any> {
     return this.http.get(this.apiURL)
                .toPromise()
-               .then(response => response.json().data)
-               .catch(this.handleError);
+              //  .then(response => response.json().data)
+              //  .catch(this.handleError);
+              //I realized that this is just supposed to return the promise and not
+              //worry about anything else like 'then' and 'catch'
   }
 
   /**private extractData(res : Response) {
@@ -28,6 +30,7 @@ export class UploadService {
     return body.data || {};
   }*/
 
+  //probably not needed
   private handleError(error: any) : Promise<any> {
     console.error('HEY HEY An error occurred', error) //TODO remove this
     return Promise.reject(error.message || error)
