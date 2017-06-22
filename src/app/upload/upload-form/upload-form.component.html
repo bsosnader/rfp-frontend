@@ -1,0 +1,63 @@
+  <h4>Add RFP</h4>
+  <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+
+    <!--companyName-->
+    <div class="form-group">
+      <label>Company Name</label>
+      <input type="text" class="form-control" formControlName="companyName">
+      <small *ngIf="!myForm.controls.companyName.valid" class="text-danger">
+        required
+      </small>
+    </div>
+
+    <!--date-->
+    <div class="form-group">
+      <label>Date Submitted</label>
+      <input type="date" class="form-control" formControlName="dateSubmitted">
+      <small *ngIf="!myForm.controls.dateSubmitted.valid" class="text-danger">
+        required
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Company Type</label>
+      <input type="text" class="form-control" formControlName="companyType">
+      <small *ngIf="!myForm.controls.companyType.valid" class="text-danger">
+        required
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Service</label>
+      <input type="text" class="form-control" formControlName="service">
+      <small *ngIf="!myForm.controls.service.valid" class="text-danger">
+        required
+      </small>
+    </div>
+
+    <!--list of tags -->
+    <div formArrayName="additionalTags">
+      <div *ngFor="let tag of myForm.controls.additionalTags.controls; let i=index">
+
+
+        <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+        <div [formGroupName]="i" class="form-inline">
+          <app-upload-tag [group]="myForm.controls.additionalTags.controls[i]"></app-upload-tag>
+        </div>
+        <div>
+          <a><small *ngIf="myForm.controls.additionalTags.controls.length > 0" (click)="removeTag(i)">
+            Remove
+          </small></a>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-default" (click)="addTag()">Add Tag</button>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+    </div>
+  </form>
+  <div *ngIf="formResults">{{formResults | json}}</div>

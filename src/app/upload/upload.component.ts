@@ -3,6 +3,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {UploadService} from '../upload.service';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 
+import { rfpDocument } from './rfp.interface';
+
 
 @Component({
   selector: 'app-upload',
@@ -12,6 +14,8 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 export class UploadComponent implements OnInit {
 
   response: Object; //object not promise
+
+  testo: rfpDocument;
 
   compname: String;
   comptype: String;
@@ -59,10 +63,16 @@ export class UploadComponent implements OnInit {
     this.compname = this.uploadForm.controls.companyname.value;
     this.comptype = this.uploadForm.controls.companytype.value;
     this.compdoc = this.uploadForm.controls.companydoc.value;
-    
+
     this.date["day"] = this.uploadForm.controls.companydate.value.day;
     this.date["month"] = this.uploadForm.controls.companydate.value.month;
     this.date["year"]= this.uploadForm.controls.companydate.value.year;
     this.getResponse();
+  }
+
+  onSubmit(doc: rfpDocument) {
+    this.testo = doc;
+    console.log(this.testo);
+    console.log("hi")
   }
 }

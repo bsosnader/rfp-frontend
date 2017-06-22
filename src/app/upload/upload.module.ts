@@ -4,6 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { UploadComponent } from './upload.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UploadService} from '../upload.service';
+import { UploadFormComponent } from './upload-form/upload-form.component';
+import { UploadTagComponent } from './upload-tag/upload-tag.component';
 
 @NgModule({
   imports: [
@@ -12,7 +14,7 @@ import {UploadService} from '../upload.service';
     ReactiveFormsModule,
     NgbModule
   ],
-  declarations: [UploadComponent],
+  declarations: [UploadComponent, UploadFormComponent, UploadTagComponent],
   providers: [UploadService]
 })
 export class UploadModule { }
