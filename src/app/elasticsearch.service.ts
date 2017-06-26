@@ -82,4 +82,19 @@ export class ElasticsearchService {
       }
     })
   }
+
+  /*delete all entries with field values matching the passed field values
+  as above, fields should be formatted like so: {term: {field: "input"}}, ... */
+  deleteByFields(index: string, type: string, fields: Object[]): Promise<any> {
+    return this._client.deleteByQuery({
+      index: index,
+      body: {
+        query: {
+          bool: {
+            filter: fields
+          }
+        }
+      }
+    })
+  }
 }

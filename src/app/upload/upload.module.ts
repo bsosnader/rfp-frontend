@@ -14,7 +14,6 @@ import { UploadTagComponent } from './upload-tag/upload-tag.component';
     ReactiveFormsModule,
     NgbModule
   ],
-  declarations: [UploadComponent, UploadFormComponent, UploadTagComponent],
-  providers: [UploadService]
+  declarations: [UploadComponent, UploadFormComponent, UploadTagComponent]
 })
 export class UploadModule { }

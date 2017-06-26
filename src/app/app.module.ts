@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { SearchComponent, SearchModule } from './search/index';
 import { UploadComponent, UploadModule } from './upload/index';
+import { DeleteComponent, DeleteModule } from './delete/index';
 import { ElasticsearchService } from './elasticsearch.service';
 import { UploadService } from './upload.service';
 
 const appRoutes: Routes = [
   { path: 'upload', component: UploadComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'delete', component: DeleteComponent },
   {
     path: '',
     redirectTo: '/search',
@@ -32,6 +34,7 @@ const appRoutes: Routes = [
     SharedModule,
     SearchModule,
     UploadModule,
+    DeleteModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
