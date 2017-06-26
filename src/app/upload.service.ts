@@ -13,6 +13,8 @@ export class UploadService {
 
   constructor(private http: Http) { }
 
+
+
   private apiURL = 'http://localhost:8888/servlet';
 
 
@@ -23,6 +25,14 @@ export class UploadService {
               //  .catch(this.handleError);
               //I realized that this is just supposed to return the promise and not
               //worry about anything else like 'then' and 'catch'
+  }
+
+//, {headers:{'Content-Type':'text/plain'}}
+
+  postRequest(data : Object) : Promise<any> {
+    console.log(data)
+    return this.http.post(this.apiURL, data)
+                .toPromise();
   }
 
   /**private extractData(res : Response) {
