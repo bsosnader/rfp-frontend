@@ -1,5 +1,11 @@
   <h4>Add RFP</h4>
   <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
+    <!-- file upload -->
+    <div class="form-group">
+      <label>File input</label>
+      <input class="form-control-file" (change)="fileUploaded($event)" type="file" aria-describedby="fileHelp">
+      <small id="fileHelp" class="form-text text-muted">Please only submit docx, xls, or xlsx files</small>
+    </div>
 
     <!--companyName-->
     <div class="form-group">
@@ -60,4 +66,3 @@
       <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
     </div>
   </form>
-  <div *ngIf="formResults">{{formResults | json}}</div>

@@ -15,22 +15,30 @@ export class UploadComponent implements OnInit {
 
   response: Object; //object not promise
 
-  testo: rfpDocument;
+  docResult: rfpDocument;
 
-  compname: String;
-  comptype: String;
-  compdoc: String;
-  date = {};
+  /* the form is now in the upload-form component, which returns a "rfpDocument" object
+  you can access it using docResult, and if you look in "rfp.interface.ts", you'll see the structure of
+  the object and what you can access. the actual file is also included in this object.*/
 
+  //to actually get all of this to the java server will be a little more complicated
+  //from what I read, we'll have to send the file and metadata separately and then link them together
+  //on the java side of things. still looking into it.
 
-  public uploadForm = this.fb.group({
-    companyname: ["", Validators.required],
-    companytype: ["",Validators.required],
-    companydoc: ["",Validators.required],
-    companydate: [{day: 0, month: 0, year: 0},Validators.required]
-  });
+  ngOnInit() {
+    this.postRequest(); //response will be logged at start of app!
+  }
 
-  getResponse(): void {
+  constructor(private uploadService : UploadService){}
+
+  onSubmit(doc: rfpDocument) {
+    this.docResult = doc;
+    console.log(this.docResult);
+    console.log("hi");
+    console.log(this.postRequest());
+  }
+
+  getRequest(): void {
     //this.response = this.uploadService.getResponse();
 
     //console.log(this.response.then(JSON.parse)); //THIS  DOESN'T DO ANYTHING USEFUL
@@ -39,7 +47,7 @@ export class UploadComponent implements OnInit {
         //.getResponse()
         //.then(response => this.response = response);
         //console.log(this.response);
-    this.uploadService.getResponse()
+    this.uploadService.getRequest()
       .then((resp) => {
         this.response = resp;
         console.log(this.response); //woo we get a response!!
@@ -57,36 +65,5 @@ export class UploadComponent implements OnInit {
         }).catch((err) => {
           console.error(err);
         })
-  }
-
-  ngOnInit() {
-    this.postRequest(); //response will be logged at start of app!
-
-    let today = new Date();
-    this.dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
-  }
-
-  constructor(public fb: FormBuilder,   private uploadService : UploadService, private dateConfig: NgbDatepickerConfig){}
-
-  doUpload(event) {
-    //console.log(event);
-    //console.log(this.uploadForm.value);
-    this.compname = this.uploadForm.controls.companyname.value;
-    this.comptype = this.uploadForm.controls.companytype.value;
-    this.compdoc = this.uploadForm.controls.companydoc.value;
-
-    this.date["day"] = this.uploadForm.controls.companydate.value.day;
-    this.date["month"] = this.uploadForm.controls.companydate.value.month;
-    this.date["year"]= this.uploadForm.controls.companydate.value.year;
-
-
-
-    console.log(this.postRequest());
-  }
-
-  onSubmit(doc: rfpDocument) {
-    this.testo = doc;
-    console.log(this.testo);
-    console.log("hi")
   }
 }

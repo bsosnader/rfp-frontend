@@ -18,7 +18,7 @@ export class UploadService {
   private apiURL = 'http://localhost:8888/servlet';
 
 
-  getResponse() : Promise<any> {
+  getRequest() : Promise<any> {
     return this.http.get(this.apiURL)
                .toPromise()
               //  .then(response => response.json().data)

@@ -1,36 +1,5 @@
 <h3>Someday you'll be able to upload RFPs on this page!</h3>
-<form [formGroup]="uploadForm" (ngSubmit)="doUpload($event)">
-  <div class="form-group">
-    <label for="companydoc">File input</label>
-    <input class="form-control-file" formControlName="companydoc" type="file" id="companydoc" aria-describedby="fileHelp">
-    <small id="fileHelp" class="form-text text-muted">Please only submit docx, xls, or xlsx files</small>
-  </div>
-  <div class="form-group">
-    <label for="companyname">Company Name</label>
-    <input class="form-control" id="companyname" formControlName="companyname" type="text" placeholder="Name of Company">
-  </div>
-  <div class="form-group">
-    <label for="companytype">Company Type</label>
-    <input class="form-control" id="companytype" formControlName="companytype" type="text" placeholder="Field of Work">
-  </div>
-  <div class="form-group">
-    <label for="date">Date Submitted</label>
-    <div class="input-group">
-      <input class="form-control" placeholder="yyyy-MM-dd"
-        name="date" id="date" [(ngModel)]="dateModel" ngbDatepicker #d="ngbDatepicker"
-        formControlName="companydate">
-      <div class="input-group-addon" (click)="d.toggle()" >
-        <i class="fa fa-calendar" aria-hidden="true"></i>
-      </div>
-    </div>
-  </div>
-  <button class="btn btn-primary" type="submit">Upload</button>
-</form>
-<div>{{compname}}</div>
-<div>{{comptype}}</div>
-<div>{{compdoc}}</div>
-<div>{{date.year}}-{{date.month}}-{{date.day}}</div>
 
-<!-- <app-upload-form (onSubmit)="onSubmit($event)">
+<app-upload-form (onSubmit)="onSubmit($event)">
 
-</app-upload-form> -->
+</app-upload-form>

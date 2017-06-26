@@ -20,6 +20,7 @@ export class UploadFormComponent implements OnInit {
   ngOnInit() {
     //initialize form here
     this.myForm = this._fb.group({
+      companyDoc: ['', [Validators.required]],
       companyName: ['',[Validators.required]],
       dateSubmitted: ['', [Validators.required]],
       companyType: ['',[Validators.required]],
@@ -60,8 +61,12 @@ export class UploadFormComponent implements OnInit {
       this.onSubmit.emit(this.formResults);
     }
 
-    console.log(model);
-    console.log(this.formResults);
+  }
+
+  //when event is triggered by user choosing a file, takes that file and puts it in the form
+  fileUploaded(event: any) {
+    const file = event.srcElement.files[0];
+    this.myForm.get('companyDoc').patchValue(file);
   }
 
 
