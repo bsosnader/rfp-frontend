@@ -26,7 +26,7 @@ export class UploadComponent implements OnInit {
   //on the java side of things. still looking into it.
 
   ngOnInit() {
-    this.postRequest(); //response will be logged at start of app!
+    //this.postRequest(); //response will be logged at start of app!
   }
 
   constructor(private uploadService : UploadService){}
@@ -58,7 +58,10 @@ export class UploadComponent implements OnInit {
 
   postRequest() : void {
     var obj = JSON.parse('{"name":"larry","type":"libra","age":"22"}');
-    this.uploadService.postRequest(obj)
+    let formData = new FormData();
+    formData.append('file', this.docResult.companyDoc);
+    formData.append('tags', JSON.stringify(this.docResult));
+    this.uploadService.postRequest(formData)
         .then((resp) => {
           this.response = resp;
           console.log(this.response);
