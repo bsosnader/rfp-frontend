@@ -7,31 +7,63 @@ import { ElasticsearchService } from '../elasticsearch.service';
   styleUrls: ['./delete.component.css']
 })
 export class DeleteComponent implements OnInit {
-  response;
+  nameResponse;
+  dateResponse;
+  deleteResponse;
   deleteId = "company";
-  aggObject = {};
-  selection;
+  dateId = "timestamp";
+  nameAggObject = {};
+  dateAggObject = {};
+  nameSelection;
+  dateSelection;
+  index = "rfps2";
+  type = "rfp2";
 
   constructor(private elasticService: ElasticsearchService) { }
 
   ngOnInit() {
-    this.aggObject[this.deleteId] = {terms: {field: this.deleteId}}
-    this.getNames("rfps2", "rfp2", this.aggObject);
+    this.nameAggObject[this.deleteId] = {terms: {field: this.deleteId}};
+    this.dateAggObject[this.dateId] = {terms: {field: this.dateId}};
+
+    this.getNames(this.nameAggObject);
   }
 
-  getNames(index: string, type: string, fields: Object) {
-    this.elasticService.getAggs(index, type, fields)
+  getNames(fields: Object) {
+    this.elasticService.getAggs(this.index, this.type, fields)
       .then((data) => {
-        this.response = data;
+        this.nameResponse = data;
       }).catch((err) => {
         console.error(err);
       })
   }
 
-  doDelete(index: string, type: string) {
-    let deleteObject = [{term: {[this.deleteId]: this.selection}}];
+  getDates(filters: Object[], fields: Object) {
+    this.elasticService.getAggsByField(this.index, this.type, filters, fields)
+      .then((data) => {
+        this.dateResponse = data;
+        console.log(this.dateResponse);
+      }).catch((err) => {
+        console.error(err);
+      })
+  }
 
-    this.elasticService.deleteByFields(index, type, deleteObject);
+  onNameSelect() {
+    let filterObject = [{term:{[this.deleteId]: this.nameSelection}}];
+
+    this.getDates(filterObject, this.dateAggObject);
+  }
+
+  doDelete() {
+    let deleteObject = [{term: {[this.deleteId]: this.nameSelection}},
+                        {term: {[this.dateId]: this.dateSelection}}];
+
+    this.elasticService.deleteByFields(this.index, this.type, deleteObject)
+      .then((response) => {
+        this.deleteResponse = response;
+        console.log(this.deleteResponse);
+      }).catch((err) => {
+        console.error(err);
+      })
   }
 
 }

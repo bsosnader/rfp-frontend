@@ -1,9 +1,23 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!!
-  </h1>
-</div>
-<a routerLink="/search">Search</a>
-<a routerLink="/upload">Upload</a>
-<a routerLink="/delete">Delete</a>
+<h1>{{title}}</h1>
+<nav class="navbar navbar-light bg-faded">
+  <div class="navbar-nav">
+    <div class="row">
+      <div class="col-md-1">
+        <a class="nav-item nav-link" routerLink="/search">Search</a>
+      </div>
+      <div class="col-md-1">
+        <a class="nav-item nav-link" routerLink="/upload">Upload</a>
+      </div>
+      <div class="col-md-1">
+        <a class="nav-item nav-link" routerLink="/delete">Delete</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
 <router-outlet></router-outlet>

@@ -1,7 +1,23 @@
-<div *ngIf="response">
-  <ng2-completer [datasource]="response | aggs:deleteId" [minSearchLength]="0" [(ngModel)]="selection"></ng2-completer>
+
+
+<div *ngIf="nameResponse">
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Filename</label>
+    <ng2-completer class="col-4" [datasource]="nameResponse | aggs:deleteId" [minSearchLength]="0" [(ngModel)]="nameSelection" (selected)="onNameSelect()"></ng2-completer>
+  </div>
 </div>
 
-<div *ngIf="selection">
-  {{selection}}
+<div *ngIf="dateResponse">
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Date Entered</label>
+    <ng2-completer class="col-4" [datasource]="dateResponse | aggs:dateId | dateArr" [minSearchLength]="0" [openOnFocus]="true" [(ngModel)]="dateSelection"></ng2-completer>
+  </div>
+</div>
+
+<div *ngIf="nameSelection && dateSelection">
+  <button class="btn btn-danger" (click)="doDelete()">Delete</button>
+</div>
+
+<div *ngIf="deleteResponse">
+  Sections deleted: {{deleteResponse.deleted}}
 </div>

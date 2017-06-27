@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ValuesPipe } from './values.pipe';
 import { AggsPipe } from './aggs.pipe';
+import { DateArrPipe } from './date-arr.pipe';
 
 @NgModule({
   imports: [
@@ -12,14 +13,16 @@ import { AggsPipe } from './aggs.pipe';
   ],
   declarations: [
     ValuesPipe,
-    AggsPipe
+    AggsPipe,
+    DateArrPipe
   ],
   exports: [
     CommonModule,
     HttpModule,
     FormsModule,
     ValuesPipe,
-    AggsPipe
+    AggsPipe,
+    DateArrPipe
   ]
 })
 export class SharedModule { }
