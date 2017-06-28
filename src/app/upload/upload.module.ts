@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UploadService} from '../upload.service';
 import { UploadFormComponent } from './upload-form/upload-form.component';
 import { UploadTagComponent } from './upload-tag/upload-tag.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { UploadTagComponent } from './upload-tag/upload-tag.component';
     ReactiveFormsModule,
     NgbModule
   ],
-  declarations: [UploadComponent, UploadFormComponent, UploadTagComponent],
+  declarations: [UploadComponent, UploadFormComponent, UploadTagComponent, PreviewComponent],
   providers: [UploadService]
 })
 export class UploadModule { }

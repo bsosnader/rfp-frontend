@@ -21,10 +21,10 @@ export class UploadFormComponent implements OnInit {
     //initialize form here
     this.myForm = this._fb.group({
       companyDoc: ['', [Validators.required]],
-      companyName: ['',[Validators.required]],
+      companyName: ['Name',[Validators.required]],
       dateSubmitted: ['', [Validators.required]],
-      companyType: ['',[Validators.required]],
-      service: ['',[Validators.required]],
+      companyType: ['Type',[Validators.required]],
+      service: ['Service',[Validators.required]],
       additionalTags: this._fb.array([
 
       ])

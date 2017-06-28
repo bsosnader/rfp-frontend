@@ -53,7 +53,6 @@ export class SearchComponent implements OnInit {
     }).catch((err) => {
       console.error(err)
     })
-
   }
 
 
