@@ -82,4 +82,43 @@ export class ElasticsearchService {
       }
     })
   }
+
+  /*delete all entries with field values matching the passed field values
+  as above, fields should be formatted like so: {term: {field: "input"}}, ... */
+  deleteByFields(index: string, type: string, fields: Object[]): Promise<any> {
+    console.log(index);
+    console.log(type);
+    console.log(fields);
+    return this._client.deleteByQuery({
+      index: index,
+      type: type,
+      body: {
+        query: {
+          bool: {
+            filter: fields
+          }
+        }
+      }
+    })
+  }
+
+  /*get aggs based on specific field values. used for when we need to get all dates
+  submitted for a specific filename.
+  filters: {term:{filterName:filterValue}}, ...
+  aggs: {fieldName:{terms:{field:fieldName}}}, ...
+  */
+  getAggsByField(index: string, type: string, filters: Object[], fields: Object): Promise<any> {
+    return this._client.search({
+      index: index,
+      type: type,
+      body: {
+        query: {
+          bool: {
+            filter: filters
+          }
+        },
+        aggs: fields
+      }
+    })
+  }
 }

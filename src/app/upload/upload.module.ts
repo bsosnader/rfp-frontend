@@ -15,7 +15,8 @@ import { PreviewComponent } from './preview/preview.component';
     ReactiveFormsModule,
     NgbModule
   ],
+
   declarations: [UploadComponent, UploadFormComponent, UploadTagComponent, PreviewComponent],
-  providers: [UploadService]
+
 })
 export class UploadModule { }
