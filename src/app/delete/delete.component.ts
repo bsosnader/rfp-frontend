@@ -10,14 +10,13 @@ export class DeleteComponent implements OnInit {
   nameResponse;
   dateResponse;
   deleteResponse;
-  deleteId = "company";
+  deleteId = "filename";
   dateId = "timestamp";
   nameAggObject = {};
   dateAggObject = {};
   nameSelection;
   dateSelection;
-  index = "rfps2";
-  type = "rfp2";
+
 
   constructor(private elasticService: ElasticsearchService) { }
 
@@ -29,7 +28,7 @@ export class DeleteComponent implements OnInit {
   }
 
   getNames(fields: Object) {
-    this.elasticService.getAggs(this.index, this.type, fields)
+    this.elasticService.getAggs(fields)
       .then((data) => {
         this.nameResponse = data;
       }).catch((err) => {
@@ -38,7 +37,7 @@ export class DeleteComponent implements OnInit {
   }
 
   getDates(filters: Object[], fields: Object) {
-    this.elasticService.getAggsByField(this.index, this.type, filters, fields)
+    this.elasticService.getAggsByField(filters, fields)
       .then((data) => {
         this.dateResponse = data;
         console.log(this.dateResponse);
@@ -57,7 +56,7 @@ export class DeleteComponent implements OnInit {
     let deleteObject = [{term: {[this.deleteId]: this.nameSelection}},
                         {term: {[this.dateId]: this.dateSelection}}];
 
-    this.elasticService.deleteByFields(this.index, this.type, deleteObject)
+    this.elasticService.deleteByFields(deleteObject)
       .then((response) => {
         this.deleteResponse = response;
         console.log(this.deleteResponse);
