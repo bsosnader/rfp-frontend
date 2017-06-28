@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 //CREATE METHODS FOR YES AND NO BUTTONS
 //CONNECT WITH UPLOAD COMPONENT
@@ -10,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewComponent implements OnInit {
 
+  @Input() responsebody: any;
+
   constructor() { }
 
   ngOnInit() {
+    console.log(this.responsebody.stuff);
   }
 
 }

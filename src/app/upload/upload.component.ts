@@ -14,6 +14,7 @@ import { rfpDocument } from './rfp.interface';
 export class UploadComponent implements OnInit {
 
   response; //object not promise
+  responsebody;
 
 
   docResult: rfpDocument;
@@ -36,18 +37,10 @@ export class UploadComponent implements OnInit {
     this.docResult = doc;
     console.log(this.docResult);
     console.log("hi");
-    console.log(this.postRequest());
+    this.postRequest();
   }
 
   getRequest(): void {
-    //this.response = this.uploadService.getResponse();
-
-    //console.log(this.response.then(JSON.parse)); //THIS  DOESN'T DO ANYTHING USEFUL
-    //THIS IS WHERE I LEFT OFF YESTERDAY
-    //this.uploadService
-        //.getResponse()
-        //.then(response => this.response = response);
-        //console.log(this.response);
     this.uploadService.getRequest()
       .then((resp) => {
         this.response = resp;
@@ -55,6 +48,7 @@ export class UploadComponent implements OnInit {
       }).catch((err) => {
         console.error(err);
       });
+
   }
 
   postRequest() : void {
@@ -65,9 +59,12 @@ export class UploadComponent implements OnInit {
     this.uploadService.postRequest(formData)
         .then((resp) => {
           this.response = resp;
+          console.log(resp);
+          this.responsebody = JSON.parse(resp._body);
           console.log(JSON.parse(this.response._body));
         }).catch((err) => {
           console.error(err);
         })
+
   }
 }

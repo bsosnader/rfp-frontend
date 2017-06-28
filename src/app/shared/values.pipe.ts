@@ -7,6 +7,7 @@ export class ValuesPipe implements PipeTransform {
 
   transform(value: any, args?: any[]): Object[] {
     //create instance vars to store keys and final output
+    //console.log(value);
     let keyArr: any[] = Object.keys(value),
         dataArr = [],
         keyProp = args[0] ? args[0] : 'key';
@@ -21,7 +22,7 @@ export class ValuesPipe implements PipeTransform {
           childValue: value[key]
         };
         //converts camelCase to Whatever This Is
-        //the hope is that all the keys are in camelCase 
+        //the hope is that all the keys are in camelCase
         retObj[keyProp] = key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
         dataArr.push(retObj);
 
