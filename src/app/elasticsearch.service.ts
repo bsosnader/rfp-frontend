@@ -6,6 +6,8 @@ import { Client } from 'elasticsearch';
 @Injectable()
 export class ElasticsearchService {
   private _client: Client;
+  readonly index = "rfps2";
+  readonly type = "rfp2";
 
   constructor() {
     if (!this._client) this._connect();
@@ -19,15 +21,15 @@ export class ElasticsearchService {
   }
 
   //method to search, with optional array of filters passed
-  getData(index: string, type: string, value: string, textFields: String[], highlightFields: Object, filters: Object[]): Promise<any> {
+  getData(value: string, textFields: String[], highlightFields: Object, filters: Object[]): Promise<any> {
     /*create array of user inputted values for filters then use them in filter, if it's empty, nothing is filtered
       per elasticsearch Query DSL, filters should be like so: {term: {filter: "input"}}, ...
       highlightFields should be : {field: {}}, ...
       textFields is just strings
       */
     return this._client.search({
-      index: index,
-      type: type,
+      index: this.index,
+      type: this.type,
       body: {
         query: {
           bool: {
@@ -49,20 +51,29 @@ export class ElasticsearchService {
     })
   }
 
+  //bulk index data
+  putBulk(body: Object[]): Promise<any> {
+    return this._client.bulk({
+      index: this.index,
+      type: this.type,
+      body: body
+    })
+  }
+
   //method to get mapping of an index and type
-  getMapping(index: string, type: string): Promise<any> {
+  getMapping(): Promise<any> {
     return this._client.indices.getMapping({
-      index: index,
-      type: type
+      index: this.index,
+      type: this.type
     })
   }
   /*method to get mapping of particular fields of an index and type
     fields should be like this: ["a", "b", "c"]
   */
-  getFieldMapping(index: string, type: string, fields: string[]): Promise<any> {
+  getFieldMapping(fields: string[]): Promise<any> {
     return this._client.indices.getFieldMapping({
-      index:index,
-      type: type,
+      index: this.index,
+      type: this.type,
       fields: fields
     })
   }
@@ -72,10 +83,21 @@ export class ElasticsearchService {
     names: { terms: { field: name }},
     otherNames: {terms: { field: otherName }}, etc...
     */
-  getAggs(index: string, type: string, fields: Object): Promise<any> {
+  getAggs(fields: Object): Promise<any> {
     return this._client.search({
-      index: index,
-      type: type,
+      index: this.index,
+      type: this.type,
+      body: {
+        size: 0,
+        aggs: fields
+      }
+    })
+  }
+
+  getAggs2(fields: Object): Promise<any> {
+    return this._client.search({
+      index: this.index,
+      type: this.type,
       body: {
         size: 0,
         aggs: fields
@@ -85,13 +107,10 @@ export class ElasticsearchService {
 
   /*delete all entries with field values matching the passed field values
   as above, fields should be formatted like so: {term: {field: "input"}}, ... */
-  deleteByFields(index: string, type: string, fields: Object[]): Promise<any> {
-    console.log(index);
-    console.log(type);
-    console.log(fields);
+  deleteByFields(fields: Object[]): Promise<any> {
     return this._client.deleteByQuery({
-      index: index,
-      type: type,
+      index: this.index,
+      type: this.type,
       body: {
         query: {
           bool: {
@@ -107,10 +126,10 @@ export class ElasticsearchService {
   filters: {term:{filterName:filterValue}}, ...
   aggs: {fieldName:{terms:{field:fieldName}}}, ...
   */
-  getAggsByField(index: string, type: string, filters: Object[], fields: Object): Promise<any> {
+  getAggsByField(filters: Object[], fields: Object): Promise<any> {
     return this._client.search({
-      index: index,
-      type: type,
+      index: this.index,
+      type: this.type,
       body: {
         query: {
           bool: {
@@ -122,3 +141,29 @@ export class ElasticsearchService {
     })
   }
 }
+
+/* need to start with this mapping because all future fields will be added as keywords
+"properties": {
+  "timestamp": {
+    "type": "date"
+  },
+  "date": {
+    "type": "date"
+  },
+  "body": {
+    "type": "text"
+  },
+  "question": {
+    "type":"text"
+  },
+  "heading": {
+    "type":"text"
+  },
+  "headingOne": {
+    "type": "text"
+  },
+  "headingTwo": {
+    "type":"text"
+  }
+}
+*/

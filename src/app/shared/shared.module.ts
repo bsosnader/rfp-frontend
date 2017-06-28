@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { ValuesPipe } from './values.pipe';
 import { AggsPipe } from './aggs.pipe';
 import { DateArrPipe } from './date-arr.pipe';
+import { Ng2CompleterModule } from 'ng2-completer';
+
 
 @NgModule({
   imports: [
@@ -22,7 +24,8 @@ import { DateArrPipe } from './date-arr.pipe';
     FormsModule,
     ValuesPipe,
     AggsPipe,
-    DateArrPipe
+    DateArrPipe,
+    Ng2CompleterModule
   ]
 })
 export class SharedModule { }

@@ -8,13 +8,14 @@ import { UploadFormComponent } from './upload-form/upload-form.component';
 import { UploadTagComponent } from './upload-tag/upload-tag.component';
 import { PreviewComponent } from './preview/preview.component';
 
+
 @NgModule({
   imports: [
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule
-  ],
+    ],
 
   declarations: [UploadComponent, UploadFormComponent, UploadTagComponent, PreviewComponent],
 

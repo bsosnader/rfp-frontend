@@ -4,6 +4,8 @@ import {UploadService} from '../upload.service';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 
 import { rfpDocument } from './rfp.interface';
+import { ElasticsearchService } from '../elasticsearch.service';
+
 
 
 @Component({
@@ -30,13 +32,13 @@ export class UploadComponent implements OnInit {
     //this.postRequest(); //response will be logged at start of app!
   }
 
-  constructor(private uploadService : UploadService){}
+  constructor(private uploadService : UploadService, private elasticService: ElasticsearchService){}
 
   onSubmit(doc: rfpDocument) {
     this.docResult = doc;
     console.log(this.docResult);
     console.log("hi");
-    console.log(this.postRequest());
+    this.postRequest()
   }
 
   getRequest(): void {
@@ -65,9 +67,21 @@ export class UploadComponent implements OnInit {
     this.uploadService.postRequest(formData)
         .then((resp) => {
           this.response = resp;
+          let test = JSON.parse(this.response._body);
+          console.log(test.stuff)
           console.log(JSON.parse(this.response._body));
+          this.bulkRequest(test.stuff);
         }).catch((err) => {
           console.error(err);
         })
+  }
+
+  bulkRequest(body: Object[]) {
+    this.elasticService.putBulk(body)
+      .then((resp) => {
+        console.log(resp)
+      }).catch((err) => {
+        console.error(err);
+      })
   }
 }

@@ -1,4 +1,11 @@
   <h4>Add RFP</h4>
+
+  <label>
+    <input type="checkbox"  aria-describedby="highlightHelp" name="useHighlighting" [(ngModel)]="useHighlighting" />
+    Only parse highlighted sections of document
+    <small id="highlightHelp" class="form-text text-muted">Warning: not highlighting document will most likely result in poor parsing, and not useful data</small>
+  </label>
+
   <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)">
     <!-- file upload -->
     <div class="form-group">
@@ -10,7 +17,7 @@
     <!--companyName-->
     <div class="form-group">
       <label>Company Name</label>
-      <input type="text" class="form-control" formControlName="companyName">
+      <ng2-completer [datasource]="companyAggs" [minSearchLength]="1" type="text" class="form-control" formControlName="companyName"></ng2-completer>
       <small *ngIf="!myForm.controls.companyName.valid" class="text-danger">
         required
       </small>
@@ -19,15 +26,15 @@
     <!--date-->
     <div class="form-group">
       <label>Date Submitted</label>
-      <input type="date" class="form-control" formControlName="dateSubmitted">
-      <small *ngIf="!myForm.controls.dateSubmitted.valid" class="text-danger">
+      <input type="date" class="form-control" formControlName="date">
+      <small *ngIf="!myForm.controls.date.valid" class="text-danger">
         required
       </small>
     </div>
 
     <div class="form-group">
       <label>Company Type</label>
-      <input type="text" class="form-control" formControlName="companyType">
+      <ng2-completer [datasource]="typeAggs" [minSearchLength]="0" type="text" class="form-control" formControlName="companyType"></ng2-completer>
       <small *ngIf="!myForm.controls.companyType.valid" class="text-danger">
         required
       </small>
@@ -35,7 +42,7 @@
 
     <div class="form-group">
       <label>Service</label>
-      <input type="text" class="form-control" formControlName="service">
+      <ng2-completer [datasource]="serviceAggs" [minSearchLength]="0" type="text" class="form-control" formControlName="service"></ng2-completer>
       <small *ngIf="!myForm.controls.service.valid" class="text-danger">
         required
       </small>

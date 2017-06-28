@@ -21,8 +21,6 @@ export class SearchComponent implements OnInit {
   aggsResults = {};
   filtered = {};
   useFilter = false;
-  index = "rfps2";
-  type = "rfp2";
 
   constructor(private elasticSearchService: ElasticsearchService, private dateConfig: NgbDatepickerConfig) { }
 
@@ -31,7 +29,7 @@ export class SearchComponent implements OnInit {
     let today = new Date();
     this.dateConfig.maxDate = {year:today.getFullYear(), day:today.getDate(), month:(today.getMonth()+1)};
 
-    this.getFilterableFields(this.index, this.type);
+    this.getFilterableFields();
   }
 
   //performs search on event, uses elasticsearch service
@@ -47,7 +45,7 @@ export class SearchComponent implements OnInit {
                                                  but I don't know it, so, sorry about that */
     this.getDate(nonBlankFilters);
     if (!this.useFilter) { nonBlankFilters = []}; //there's a better way to set this up!!
-    this.elasticSearchService.getData(this.index, this.type, value, this.textFields, this.highlightFields, nonBlankFilters)
+    this.elasticSearchService.getData(value, this.textFields, this.highlightFields, nonBlankFilters)
     .then((data) => {
       this.results = data.hits.hits
     }).catch((err) => {
@@ -78,10 +76,10 @@ export class SearchComponent implements OnInit {
   }
 
   //method to get keywords that can be filtered and text that can be searched
-  getFilterableFields(index: string, type: string) { //TODO change name to be better description
-    this.elasticSearchService.getMapping(index, type)
+  getFilterableFields() { //TODO change name to be better description
+    this.elasticSearchService.getMapping()
       .then((data) => {
-        var str = index+".mappings."+type+".properties";
+        var str = this.elasticSearchService.index+".mappings."+this.elasticSearchService.type+".properties";
         this.mappings = str.split('.').reduce((a, b) => a[b], data); //accesses object properties using a string
         for (let key in this.mappings) {
           if (this.mappings.hasOwnProperty(key)) { //ensures proto stuff doesn't get used
@@ -99,15 +97,15 @@ export class SearchComponent implements OnInit {
           }
         }
       }).then((d) => {
-        this.getAggs(index, type, this.aggsFields) //I have no idea how async and promise stuff works :(
+        this.getAggs(this.aggsFields) //I have no idea how async and promise stuff works :(
       }).catch((err) => {
         console.error(err);
       })
   }
 
   //method to get values for keywords for use in autocomplete feature
-  getAggs(index: string, type: string, agf: Object) {
-    this.elasticSearchService.getAggs(index, type, agf)
+  getAggs(aggs: Object) {
+    this.elasticSearchService.getAggs(aggs)
       .then((data) => {
         this.aggsResults = data;
       }).catch((err) => {

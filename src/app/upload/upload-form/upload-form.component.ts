@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
+import { ElasticsearchService } from '../../elasticsearch.service';
 import { rfpDocument } from '../rfp.interface';
 
 
@@ -14,15 +15,19 @@ export class UploadFormComponent implements OnInit {
   public myForm: FormGroup;
   formResults: rfpDocument;
   @Output() onSubmit = new EventEmitter<rfpDocument>();
+  companyAggs = [];
+  typeAggs = [];
+  serviceAggs = [];
+  useHighlighting = true;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private _fb: FormBuilder, private eServe: ElasticsearchService) { }
 
   ngOnInit() {
     //initialize form here
     this.myForm = this._fb.group({
       companyDoc: ['', [Validators.required]],
       companyName: ['Name',[Validators.required]],
-      dateSubmitted: ['', [Validators.required]],
+      date: ['', [Validators.required]],
       companyType: ['Type',[Validators.required]],
       service: ['Service',[Validators.required]],
       additionalTags: this._fb.array([
@@ -30,6 +35,11 @@ export class UploadFormComponent implements OnInit {
       ])
 
     });
+    let aggsObject = {};
+    aggsObject["company"] = {terms: {field: "company"}}; //TODO when indexing is finalized formalize this Object with proper names
+    aggsObject["type"] = {terms: {field: "type"}};
+    aggsObject["service"] = {terms: {field:"service"}};
+    this.getAggsForUpload(aggsObject)
   }
 
 
@@ -58,6 +68,11 @@ export class UploadFormComponent implements OnInit {
 
     if(model.valid) {
       this.formResults = model.value;
+      let d = new Date();
+      this.formResults["timestamp"] = d.getTime();
+      this.formResults["filename"] = this.formResults.companyDoc.name;
+      this.formResults["useHighlighting"] = this.useHighlighting;
+      console.log(this.formResults);
       this.onSubmit.emit(this.formResults);
     }
 
@@ -69,5 +84,22 @@ export class UploadFormComponent implements OnInit {
     this.myForm.get('companyDoc').patchValue(file);
   }
 
+  //method to get values for keywords for use in autocomplete feature
+  getAggsForUpload(aggs: Object) {
+    this.eServe.getAggs(aggs)
+      .then((data) => { //I *have* a really great aggs pipe that would do this for me in the html but it bizarrely and severely breaks routing so ...
+        for (let x of data.aggregations.company.buckets) { //company, service, type will all have to TODO be changed in final release, to proabaly companyName, companyType, and service will be changed to something else.
+          this.companyAggs.push(x.key)
+        }
+        for (let x of data.aggregations.service.buckets) {
+          this.serviceAggs.push(x.key)
+        }
+        for (let x of data.aggregations.type.buckets) {
+          this.typeAggs.push(x.key)
+        }
+      }).catch((err) => {
+        console.error(err);
+      })
+  }
 
 }

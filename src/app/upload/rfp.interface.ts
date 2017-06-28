@@ -2,8 +2,11 @@
 
 export interface rfpDocument {
   companyDoc: File;
+  filename: string;
+  timestamp: number;
+  useHighlighting: boolean;
   companyName: string;
-  dateSubmitted: string;
+  date: string;
   companyType: string;
   service: string;
   additionalTags: Tag[]; //multiple tags possible
