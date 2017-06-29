@@ -10,7 +10,7 @@
     <!-- file upload -->
     <div class="form-group">
       <label>File input</label>
-      <input class="form-control-file" (change)="fileUploaded($event)" type="file" aria-describedby="fileHelp">
+      <input class="form-control-file" (change)="fileUploaded($event)" type="file" accept=".docx,.xls,.xlsx" aria-describedby="fileHelp">
       <small id="fileHelp" class="form-text text-muted">Please only submit docx, xls, or xlsx files</small>
     </div>
 

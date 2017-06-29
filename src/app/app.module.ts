@@ -11,14 +11,16 @@ import { UploadComponent, UploadModule } from './upload/index';
 import { DeleteComponent, DeleteModule } from './delete/index';
 import { ElasticsearchService } from './elasticsearch.service';
 import { UploadService } from './upload.service';
+import { HelpComponent } from './help/help.component';
 
 const appRoutes: Routes = [
+  { path: 'help', component: HelpComponent },
   { path: 'upload', component: UploadComponent },
   { path: 'search', component: SearchComponent },
   { path: 'delete', component: DeleteComponent },
   {
     path: '',
-    redirectTo: '/search',
+    redirectTo: '/help',
     pathMatch: 'full'
   }
   //{ path: '**', component: PageNotFoundComponent} TODO make a page not found component
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HelpComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

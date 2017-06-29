@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ElasticsearchService } from '../elasticsearch.service';
 
+
 @Component({
   selector: 'app-delete',
   templateUrl: './delete.component.html',
@@ -14,6 +15,7 @@ export class DeleteComponent implements OnInit {
   dateId = "timestamp";
   nameAggObject = {};
   dateAggObject = {};
+  filterObject;
   nameSelection;
   dateSelection;
 
@@ -47,9 +49,9 @@ export class DeleteComponent implements OnInit {
   }
 
   onNameSelect() {
-    let filterObject = [{term:{[this.deleteId]: this.nameSelection}}];
+    this.filterObject = [{term:{[this.deleteId]: this.nameSelection}}];
 
-    this.getDates(filterObject, this.dateAggObject);
+    this.getDates(this.filterObject, this.dateAggObject);
   }
 
   doDelete() {
@@ -59,10 +61,17 @@ export class DeleteComponent implements OnInit {
     this.elasticService.deleteByFields(deleteObject)
       .then((response) => {
         this.deleteResponse = response;
-        console.log(this.deleteResponse);
+
+        //resetting values
+        this.nameSelection = '';
+        this.dateSelection = '';
+        this.nameResponse= null;
+        this.getNames(this.nameAggObject);
+        this.dateResponse = null;
       }).catch((err) => {
         console.error(err);
       })
+
   }
 
 }

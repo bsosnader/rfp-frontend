@@ -9,10 +9,14 @@ export class DateArrPipe extends DatePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     let formattedArr = [];
+    let origArr = [];
     for (let date of value) {
-      formattedArr.push(super.transform(date, 'yyyy-MM-dd'))
+      formattedArr.push(super.transform(date))
+      origArr.push(date);
     }
-    return formattedArr;
+    let tup: [string[], number[]];
+    tup = [origArr, formattedArr];
+    return tup;
   }
 
 }

@@ -3,6 +3,7 @@
     white-space:pre-wrap;
   }
 
-  em {
-    background: rgba(255,230,0,0.5);
+  table, th, td {
+      border: 1px solid black;
+      padding:2px;
   }

@@ -36,8 +36,8 @@ export class UploadFormComponent implements OnInit {
 
     });
     let aggsObject = {};
-    aggsObject["company"] = {terms: {field: "company"}}; //TODO when indexing is finalized formalize this Object with proper names
-    aggsObject["type"] = {terms: {field: "type"}};
+    aggsObject["company"] = {terms: {field: "companyName"}}; //TODO when indexing is finalized formalize this Object with proper names
+    aggsObject["type"] = {terms: {field: "companyType"}};
     aggsObject["service"] = {terms: {field:"service"}};
     this.getAggsForUpload(aggsObject)
   }

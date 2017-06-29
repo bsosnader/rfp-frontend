@@ -7,6 +7,7 @@ import { ValuesPipe } from './values.pipe';
 import { AggsPipe } from './aggs.pipe';
 import { DateArrPipe } from './date-arr.pipe';
 import { Ng2CompleterModule } from 'ng2-completer';
+import { CamelPipe } from './camel.pipe';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { Ng2CompleterModule } from 'ng2-completer';
   declarations: [
     ValuesPipe,
     AggsPipe,
-    DateArrPipe
+    DateArrPipe,
+    CamelPipe
   ],
   exports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
     ValuesPipe,
     AggsPipe,
     DateArrPipe,
+    CamelPipe,
     Ng2CompleterModule
   ]
 })

@@ -1,0 +1,74 @@
+<div class="jumbotron">
+  <h1 class="display-3">How this all works</h1>
+  <p class="lead">Below you'll find detailed instructions on how to prepare your documents for uploading. Following these
+    instructions exactly is the best way to ensure we can get useful information from your documents.</p>
+</div>
+  <h3>Word Documents</h3>
+  <p>There are two different ways that you can choose to parse your Word (.docx) documents. The first, and preferred method
+      is to choose <em>questions</em> and <em>answers</em> that you want to be paired together in a single entry in the database,
+      along with filterable tags that you fill in on the Upload page.</p>
+  <p>To make questions and answers visible to the parser, follow this two step process:</p>
+  <ol>
+    <li>Highlight all text you want saved using Word's built in highlighter function with the default color.</li>
+    <li>Color questions <em style="color:red">red</em> and answers <em style="color:blue">blue</em>. Use Word's "Standard
+          Colors," and make sure to hover over the color and ensure that it reads "Red" and "Blue," not "Dark Red" or "Light Blue."</li>
+  </ol>
+  <p><strong>Note:</strong> The colors must follow a pattern of red, blue, red, blue, ... It should start with red and end with blue.
+          Don't leave any highlighted text without a color; it will be ignored.</p>
+  <p><strong>Example:</strong></p>
+  <div class="jumbotron">
+    <p>This text will be ignored</p>
+    <p style="color:red;background:rgba(255,230,0,0.5);">This is question A, it will be paired with answer A.</p>
+    <p style="color:blue;background:rgba(255,230,0,0.5);">This is answer A, it will be paired with question A.</p>
+    <p>This text will also be ignored</p>
+    <p style="color:red;background:rgba(255,230,0,0.5);">This is question B, it will be paired with answer B.</p>
+    <p style="color:blue;background:rgba(255,230,0,0.5);">This is answer B, it will be paired with question B.</p>
+  </div>
+
+  <p>
+    The second way of parsing requires no additional formatting, instead relying on the document already having styled Heading 1
+    and Heading 2 sections. It takes all text underneath a heading and pairs it with that heading. This method is slower and leads
+    to a lot of junk data that is useless being extracted. It also fails if the document's headings aren't formatted with Word's "Heading 1"
+    and "Heading 2" classes. I do not recommend using this method.
+  </p>
+
+  <h3>Excel Documents</h3>
+  <p>The parser accepts both .xls and .xlsx documents. Similar to Word parsing, there are two methods. The first is preferred, and
+    is also similar to the highlighting method for Word documents. Here are the steps:</p>
+  <ol>
+    <li>Using the "Fill Color" option (<strong>not</strong> the "Font Color"), select a cell containg a question and color it <em style="color:purple">purple</em>
+    </li>
+    <li>Using the "Fill Color" option again, select the cell containing the answer and color it <em style="color:yellow">yellow</em></li>
+  </ol>
+  <p><strong>Note:</strong> This methods assumes a few things: that a question and answer are on the same row,
+    that there are no more than one question and answer per row, and that each question and answer is contained within a single cell.</p>
+  <p><strong>Why yellow and purple?</strong> Yellow and purple were chosen because it is probably unlikely that a company has already
+    used these colors as fill colors elsewhere in the document. If they do, the parser will read those cells in as well, and possibly break.
+    You can fix it by removing the fill colors from those sections.</p>
+  <p><strong>Example:</strong></p>
+  <div class="jumbotron">
+      <table>
+        <tr>
+          <td style="background:rgba(128,0,128,0.5)">This is question A</td>
+          <td>This will be ignored</td>
+          <td style="background:rgba(255,230,0,0.5)">This is answer A</td>
+        </tr>
+        <tr>
+          <td>This is all ignored</td>
+          <td>This is all ignored</td>
+          <td>This is all ignored</td>
+        </tr>
+        <tr>
+          <td style="background:rgba(128,0,128,0.5)">This is question B</td>
+          <td style="background:rgba(255,230,0,0.5)">This is answer B</td>
+          <td>This is ignored</td>
+        </tr>
+      </table>
+
+    </div>
+    <p><strong>Final Note:</strong> The colors on this page may not look exactly like the ones in Word or Excel. Choose based on
+      the exact names of the colors: red, blue, purple, yellow, not how they look precisely on this page.</p>
+
+    <p>The second method for parsing Excel documents simply takes the name of an entire sheet, and puts that in along with all of
+      text from that sheet as a single entry. As you can imagine, this is slow and results in basically meaningless entries. It
+      is not recommended to use this method. </p>

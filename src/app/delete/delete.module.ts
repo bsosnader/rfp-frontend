@@ -9,6 +9,6 @@ import { DeleteComponent } from './delete.component';
   imports: [
     SharedModule
     ],
-  declarations: [DeleteComponent]
+  declarations: [DeleteComponent],
 })
 export class DeleteModule { }
