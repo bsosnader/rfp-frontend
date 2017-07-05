@@ -15,7 +15,7 @@ export class ElasticsearchService {
 
   private _connect() {
     this._client = new Client({
-      host: 'https://search-elastic-test-yyco5dncwicwd2nufqhakzek2e.us-east-1.es.amazonaws.com/',
+      host: 'https://localhost:9200',     //THIS NEEDS TO BE CHANGED CHANGED CHANGED!!!
       log: 'trace'
     })
   }

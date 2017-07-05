@@ -42,6 +42,13 @@ export class UploadFormComponent implements OnInit {
     this.getAggsForUpload(aggsObject)
   }
 
+  redo() {
+    //PREVIOUSLY ON "INTERNING AT HIGHPOINT SOLUTIONS:"
+    this.myForm.controls.companyName.value("Name1");
+    this.myForm.controls.companyType.value("Name1");
+    this.myForm.controls.companyName.value("Name1");
+  }
+
 
   initTag() {
     //initialize our tag
