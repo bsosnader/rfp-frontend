@@ -1,10 +1,18 @@
 <h3>Someday you'll be able to upload RFPs on this page!</h3>
-
+<br>
+<button type="button" class="btn btn-primary btn-large" (click)="checkValid()">Valid?</button>
+<br>
+<label><small>this button prints to the console to check the validity of the upload form and its parts</small></label>
+<br><br>
 <app-upload-form (onSubmit)="onSubmit($event)">
 
 </app-upload-form>
+<div *ngIf="responsebody">
+  <button type="button" class="btn btn-default" (click)="onYes()">Yes</button>
+  <button type="button" class="btn btn-default" (click)="onNo()">No</button>
+</div>
 <app-preview *ngIf="responsebody" [responsebody] = "responsebody"></app-preview>
 <div *ngIf="responsebody">
-  <button type="button" class="btn btn-default">Yes</button>
-  <button type="button" class="btn btn-default">No</button>
+  <button type="button" class="btn btn-default" (click)="onYes()">Yes</button>
+  <button type="button" class="btn btn-default" (click)="onNo()">No</button>
 </div>
