@@ -1,5 +1,5 @@
   <h4>Add RFP</h4>
-
+<!--TODO change controls to .get()-->
   <label>
     <input type="checkbox" aria-describedby="highlightHelp" name="useHighlighting" [(ngModel)]="useHighlighting" />
     Only parse highlighted sections of document
@@ -18,7 +18,7 @@
     <div class="form-group">
       <label>Company Name</label>
       <ng2-completer [datasource]="companyAggs" [minSearchLength]="1" type="text" class="form-control" formControlName="companyName"></ng2-completer>
-      <small *ngIf="!myForm.controls.companyName.valid" class="text-danger">
+      <small *ngIf="!myForm.get('companyName').valid" class="text-danger">
         required
       </small>
     </div>
@@ -27,7 +27,7 @@
     <div class="form-group">
       <label>Date Submitted</label>
       <input type="date" class="form-control" formControlName="date">
-      <small *ngIf="!myForm.controls.date.valid" class="text-danger">
+      <small *ngIf="!myForm.get('date').valid" class="text-danger">
         required
       </small>
     </div>
@@ -35,7 +35,7 @@
     <div class="form-group">
       <label>Company Type</label>
       <ng2-completer [datasource]="typeAggs" [minSearchLength]="0" type="text" class="form-control" formControlName="companyType"></ng2-completer>
-      <small *ngIf="!myForm.controls.companyType.valid" class="text-danger">
+      <small *ngIf="!myForm.get('companyType').valid" class="text-danger">
         required
       </small>
     </div>
@@ -43,22 +43,22 @@
     <div class="form-group">
       <label>Service</label>
       <ng2-completer [datasource]="serviceAggs" [minSearchLength]="0" type="text" class="form-control" formControlName="service"></ng2-completer>
-      <small *ngIf="!myForm.controls.service.valid" class="text-danger">
+      <small *ngIf="!myForm.get('service').valid" class="text-danger">
         required
       </small>
     </div>
 
     <!--list of tags -->
     <div formArrayName="additionalTags">
-      <div *ngFor="let tag of myForm.controls.additionalTags.controls; let i=index">
+      <div *ngFor="let tag of getTagsControls(myForm); let i=index">
 
 
         <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
         <div [formGroupName]="i" class="form-inline">
-          <app-upload-tag [group]="myForm.controls.additionalTags.controls[i]"></app-upload-tag>
+          <app-upload-tag [group]="getTagsControls(myForm)[i]"></app-upload-tag>
         </div>
         <div>
-          <a><small *ngIf="myForm.controls.additionalTags.controls.length > 0" (click)="removeTag(i)">
+          <a><small *ngIf="getTagsControls(myForm).length > 0" (click)="removeTag(i)">
             Remove
           </small></a>
         </div>

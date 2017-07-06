@@ -109,4 +109,8 @@ export class UploadFormComponent implements OnInit {
       })
   }
 
+  getTagsControls(form) {
+    return form.get('additionalTags').controls;
+  }
+
 }
