@@ -6,6 +6,7 @@ import { Client } from 'elasticsearch';
 @Injectable()
 export class ElasticsearchService {
   private _client: Client;
+  readonly host = 'https://localhost:9200';
   readonly index = "rfps2";
   readonly type = "rfp2";
 
@@ -15,7 +16,7 @@ export class ElasticsearchService {
 
   private _connect() {
     this._client = new Client({
-      host: 'https://localhost:9200',     //THIS NEEDS TO BE CHANGED CHANGED CHANGED!!!
+      host: this.host,
       log: 'trace'
     })
   }
@@ -84,17 +85,6 @@ export class ElasticsearchService {
     otherNames: {terms: { field: otherName }}, etc...
     */
   getAggs(fields: Object): Promise<any> {
-    return this._client.search({
-      index: this.index,
-      type: this.type,
-      body: {
-        size: 0,
-        aggs: fields
-      }
-    })
-  }
-
-  getAggs2(fields: Object): Promise<any> {
     return this._client.search({
       index: this.index,
       type: this.type,

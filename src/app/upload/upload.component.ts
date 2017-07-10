@@ -18,9 +18,8 @@ export class UploadComponent implements OnInit {
 
   @ViewChild(UploadFormComponent)
   private uploadFormComponent: UploadFormComponent;
-  response; //object not promise
+  response;
   responsebody;
-
 
   docResult: rfpDocument;
 
@@ -28,20 +27,13 @@ export class UploadComponent implements OnInit {
   you can access it using docResult, and if you look in "rfp.interface.ts", you'll see the structure of
   the object and what you can access. the actual file is also included in this object.*/
 
-  //to actually get all of this to the java server will be a little more complicated
-  //from what I read, we'll have to send the file and metadata separately and then link them together
-  //on the java side of things. still looking into it.
 
-  ngOnInit() {
-    //this.postRequest(); //response will be logged at start of app!
-  }
+  ngOnInit() {  }
 
   constructor(private uploadService : UploadService, private elasticService: ElasticsearchService){}
 
   onSubmit(doc: rfpDocument) {
     this.docResult = doc;
-    console.log(this.docResult);
-    console.log("hi");
     this.postRequest();
   }
 
@@ -81,7 +73,6 @@ export class UploadComponent implements OnInit {
     this.uploadService.getRequest()
       .then((resp) => {
         this.response = resp;
-        console.log(); //woo we get a response!!
       }).catch((err) => {
         console.error(err);
       });
@@ -89,16 +80,13 @@ export class UploadComponent implements OnInit {
   }
 
   postRequest() : void {
-    var obj = JSON.parse('{"name":"larry","type":"libra","age":"22"}');
     let formData = new FormData();
     formData.append('file', this.docResult.companyDoc);
     formData.append('tags', JSON.stringify(this.docResult));
     this.uploadService.postRequest(formData)
         .then((resp) => {
-          console.log(resp);
           this.response = resp;
           this.responsebody = JSON.parse(resp._body);
-          console.log(this.responsebody);
         }).catch((err) => {
           console.error(err);
         })
