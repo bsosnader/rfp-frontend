@@ -6,9 +6,9 @@ import { Client } from 'elasticsearch';
 @Injectable()
 export class ElasticsearchService {
   private _client: Client;
-  readonly host = 'https://localhost:9200';
-  readonly index = "rfps2";
-  readonly type = "rfp2";
+  readonly host = 'http://10.20.10.89:9200';
+  readonly index = "rfps";
+  readonly type = "rfp";
 
   constructor() {
     if (!this._client) this._connect();

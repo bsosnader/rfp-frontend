@@ -15,7 +15,7 @@ export class UploadService {
 
 
 
-  private apiURL = 'http://localhost:8080/paiwebapp/servlet';
+  private apiURL = 'http://10.20.10.89/paiwebapp/servlet';
 
 
   getRequest() : Promise<any> {
