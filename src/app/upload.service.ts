@@ -45,10 +45,4 @@ export class UploadService {
     return Promise.reject(error.message || error)
   }
 
-  //testing if connection to es is good
-  esGetTest() : Promise<any> {
-    return this.http.get('http://10.20.10.89:9200/_count?pretty')
-                .toPromise()
-  }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { ElasticsearchService } from '../../elasticsearch.service';
@@ -20,16 +20,19 @@ export class UploadFormComponent implements OnInit {
   serviceAggs = [];
   useHighlighting = true;
 
+  @ViewChild('fileInput')
+  myInputVariable: any;
+
   constructor(private _fb: FormBuilder, private eServe: ElasticsearchService) { }
 
   ngOnInit() {
     //initialize form here
     this.myForm = this._fb.group({
       companyDoc: ['', [Validators.required]],
-      companyName: ['Name',[Validators.required]],
+      companyName: ['',[Validators.required]],
       date: ['', [Validators.required]],
-      companyType: ['Type',[Validators.required]],
-      service: ['Service',[Validators.required]],
+      companyType: ['',[Validators.required]],
+      service: ['',[Validators.required]],
       additionalTags: this._fb.array([
 
       ])
@@ -42,13 +45,9 @@ export class UploadFormComponent implements OnInit {
     this.getAggsForUpload(aggsObject)
   }
 
-  redo() {
-    //PREVIOUSLY ON "INTERNING AT HIGHPOINT SOLUTIONS:"
-    this.myForm.controls.companyName.value("Name1");
-    this.myForm.controls.companyType.value("Name1");
-    this.myForm.controls.companyName.value("Name1");
+  fileInputReset() {
+    this.myInputVariable.nativeElement.value = "";
   }
-
 
   initTag() {
     //initialize our tag

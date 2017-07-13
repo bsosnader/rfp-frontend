@@ -44,7 +44,8 @@ export class UploadComponent implements OnInit {
     this.bulkRequest(test.stuff);
     this.response = undefined;
     this.responsebody = undefined;
-    this.uploadFormComponent.ngOnInit();
+    this.uploadFormComponent.myForm.reset();
+    this.uploadFormComponent.fileInputReset();
     console.log(this.uploadFormComponent.myForm.valid);
     //this.uploadFormComponent.myForm.reset();
   }
@@ -53,7 +54,9 @@ export class UploadComponent implements OnInit {
     console.log("You said no!");
     this.response = undefined;
     this.responsebody = undefined;
-    this.uploadFormComponent.ngOnInit();
+    //this.uploadFormComponent.ngOnInit();  <== i think this would also work instead of myForm.reset()
+    this.uploadFormComponent.myForm.reset();
+    this.uploadFormComponent.fileInputReset();
     console.log(this.uploadFormComponent.myForm.valid);
     //this.uploadFormComponent.myForm.reset();
   }
@@ -102,14 +105,4 @@ export class UploadComponent implements OnInit {
       })
   }
 
-  //this is testing if connection to es is good
-  esGetTest(): void {
-    this.uploadService.esGetTest()
-      .then((resp) => {
-        console.log(resp);
-      }).catch((err) => {
-        console.error(err);
-      });
-
-  }
 }
