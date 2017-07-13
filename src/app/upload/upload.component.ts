@@ -43,25 +43,20 @@ export class UploadComponent implements OnInit {
     this.bulkRequest(test.stuff);
     this.response = undefined;
     this.responsebody = undefined;
-    this.uploadFormComponent.ngOnInit();
+    this.uploadFormComponent.myForm.reset();
+    this.uploadFormComponent.fileInputReset();
+
   }
 
   onNo(){
     console.log("You said no!");
     this.response = undefined;
     this.responsebody = undefined;
-    this.uploadFormComponent.ngOnInit();
-  }
 
-  checkValid(){
-    //PREVIOUSLY ON "INTERNING ON HIGHPOINT SOLUTIONS:"
-    console.log("File Input: ",this.uploadFormComponent.myForm.controls.companyDoc.valid);
-    console.log("Company Name: ",this.uploadFormComponent.myForm.controls.companyName.valid);
-    console.log("Date Submitted: ",this.uploadFormComponent.myForm.controls.date.valid);
-    console.log("Company Type: ",this.uploadFormComponent.myForm.controls.companyType.valid);
-    console.log("Service: ",this.uploadFormComponent.myForm.controls.service.valid);
-    console.log("Overall Form: ",this.uploadFormComponent.myForm.valid);
-    console.log("");
+    //this.uploadFormComponent.ngOnInit();  <== i think this would also work instead of myForm.reset()
+    this.uploadFormComponent.myForm.reset();
+    this.uploadFormComponent.fileInputReset();
+
   }
 
   getRequest(): void {
@@ -96,4 +91,5 @@ export class UploadComponent implements OnInit {
         console.error(err);
       })
   }
+
 }

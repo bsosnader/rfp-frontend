@@ -1,4 +1,3 @@
-  <h4>Add RFP</h4>
   <label>
     <input type="checkbox" aria-describedby="highlightHelp" name="useHighlighting" [(ngModel)]="useHighlighting" />
     Only parse highlighted sections of document
@@ -9,7 +8,7 @@
     <!-- file upload -->
     <div class="form-group">
       <label>File input</label>
-      <input class="form-control-file" (change)="fileUploaded($event)" type="file" accept=".docx,.xls,.xlsx" aria-describedby="fileHelp">
+      <input #fileInput class="form-control-file" (change)="fileUploaded($event)" type="file" accept=".docx,.xls,.xlsx" aria-describedby="fileHelp">
       <small id="fileHelp" class="form-text text-muted">Please only submit docx, xls, or xlsx files</small>
     </div>
 
