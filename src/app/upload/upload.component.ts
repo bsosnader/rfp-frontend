@@ -59,7 +59,7 @@ export class UploadComponent implements OnInit {
   }
 
   checkValid(){
-    //PREVIOUSLY ON "INTERNING ON HIGHPOINT SOLUTIONS:"
+    //PREVIOUSLY ON "INTERNING AT HIGHPOINT SOLUTIONS:"
     console.log("File Input: ",this.uploadFormComponent.myForm.controls.companyDoc.valid);
     console.log("Company Name: ",this.uploadFormComponent.myForm.controls.companyName.valid);
     console.log("Date Submitted: ",this.uploadFormComponent.myForm.controls.date.valid);
@@ -100,5 +100,16 @@ export class UploadComponent implements OnInit {
       }).catch((err) => {
         console.error(err);
       })
+  }
+
+  //this is testing if connection to es is good
+  esGetTest(): void {
+    this.uploadService.esGetTest()
+      .then((resp) => {
+        console.log(resp);
+      }).catch((err) => {
+        console.error(err);
+      });
+
   }
 }

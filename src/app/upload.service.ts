@@ -15,7 +15,7 @@ export class UploadService {
 
 
 
-  private apiURL = 'http://localhost:8080/paiwebapp/servlet';
+  private apiURL = 'http://10.20.10.89:8080/paiwebapp/servlet';
 
 
   getRequest() : Promise<any> {
@@ -43,6 +43,12 @@ export class UploadService {
   private handleError(error: any) : Promise<any> {
     console.error('HEY HEY An error occurred', error) //TODO remove this
     return Promise.reject(error.message || error)
+  }
+
+  //testing if connection to es is good
+  esGetTest() : Promise<any> {
+    return this.http.get('http://10.20.10.89:9200/_count?pretty')
+                .toPromise()
   }
 
 }
