@@ -61,17 +61,6 @@ export class UploadComponent implements OnInit {
     //this.uploadFormComponent.myForm.reset();
   }
 
-  checkValid(){
-    //PREVIOUSLY ON "INTERNING AT HIGHPOINT SOLUTIONS:"
-    console.log("File Input: ",this.uploadFormComponent.myForm.controls.companyDoc.valid);
-    console.log("Company Name: ",this.uploadFormComponent.myForm.controls.companyName.valid);
-    console.log("Date Submitted: ",this.uploadFormComponent.myForm.controls.date.valid);
-    console.log("Company Type: ",this.uploadFormComponent.myForm.controls.companyType.valid);
-    console.log("Service: ",this.uploadFormComponent.myForm.controls.service.valid);
-    console.log("Overall Form: ",this.uploadFormComponent.myForm.valid);
-    console.log("");
-  }
-
   getRequest(): void {
     this.uploadService.getRequest()
       .then((resp) => {
