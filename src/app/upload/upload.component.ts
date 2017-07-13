@@ -39,14 +39,11 @@ export class UploadComponent implements OnInit {
 
   onYes(){
     console.log("You said yes!");
-    //UNCOMMENT THE TWO LINES BELOW WHEN YOU ACTUALLY WANT TO POST STUFF TO ELASTIC SEARCH
     let test = JSON.parse(this.response._body);
     this.bulkRequest(test.stuff);
     this.response = undefined;
     this.responsebody = undefined;
     this.uploadFormComponent.ngOnInit();
-    console.log(this.uploadFormComponent.myForm.valid);
-    //this.uploadFormComponent.myForm.reset();
   }
 
   onNo(){
@@ -54,8 +51,6 @@ export class UploadComponent implements OnInit {
     this.response = undefined;
     this.responsebody = undefined;
     this.uploadFormComponent.ngOnInit();
-    console.log(this.uploadFormComponent.myForm.valid);
-    //this.uploadFormComponent.myForm.reset();
   }
 
   checkValid(){

@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'values'
 })
+//takes an object and converts its properties and values to an array so you can use it with *ngFor
 export class ValuesPipe implements PipeTransform {
 
   transform(value: any, args?: any[]): Object[] {

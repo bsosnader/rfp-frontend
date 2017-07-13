@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-//CREATE METHODS FOR YES AND NO BUTTONS
-//CONNECT WITH UPLOAD COMPONENT
 
 @Component({
   selector: 'app-preview',
@@ -15,7 +13,6 @@ export class PreviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.responsebody.stuff);
   }
 
 }
