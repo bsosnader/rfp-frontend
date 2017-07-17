@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   title = 'RFP Search';
+
+  private hello: string = 'Hello, World!';
 }

@@ -6,6 +6,8 @@
 
 </app-upload-form>
 <div *ngIf="responsebody">
+  <label>Would you like to upload this entry?</label>
+  <br>
   <button type="button" class="btn btn-default" (click)="onYes()">Yes</button>
   <button type="button" class="btn btn-default" (click)="onNo()">No</button>
 </div>
