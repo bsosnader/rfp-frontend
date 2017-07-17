@@ -39,26 +39,24 @@ export class UploadComponent implements OnInit {
 
   onYes(){
     console.log("You said yes!");
-    //UNCOMMENT THE TWO LINES BELOW WHEN YOU ACTUALLY WANT TO POST STUFF TO ELASTIC SEARCH
     let test = JSON.parse(this.response._body);
     this.bulkRequest(test.stuff);
     this.response = undefined;
     this.responsebody = undefined;
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
-    console.log(this.uploadFormComponent.myForm.valid);
-    //this.uploadFormComponent.myForm.reset();
+
   }
 
   onNo(){
     console.log("You said no!");
     this.response = undefined;
     this.responsebody = undefined;
+
     //this.uploadFormComponent.ngOnInit();  <== i think this would also work instead of myForm.reset()
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
-    console.log(this.uploadFormComponent.myForm.valid);
-    //this.uploadFormComponent.myForm.reset();
+
   }
 
   getRequest(): void {

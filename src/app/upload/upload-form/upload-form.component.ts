@@ -39,7 +39,7 @@ export class UploadFormComponent implements OnInit {
 
     });
     let aggsObject = {};
-    aggsObject["company"] = {terms: {field: "companyName"}}; //TODO when indexing is finalized formalize this Object with proper names
+    aggsObject["company"] = {terms: {field: "companyName"}};
     aggsObject["type"] = {terms: {field: "companyType"}};
     aggsObject["service"] = {terms: {field:"service"}};
     this.getAggsForUpload(aggsObject)
@@ -78,7 +78,6 @@ export class UploadFormComponent implements OnInit {
       this.formResults["timestamp"] = d.getTime();
       this.formResults["filename"] = this.formResults.companyDoc.name;
       this.formResults["useHighlighting"] = this.useHighlighting;
-      console.log(this.formResults);
       this.onSubmit.emit(this.formResults);
     }
 

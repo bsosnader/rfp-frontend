@@ -3,6 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'aggs'
 })
+//takes what elasticsearch returns when you request aggs and converts it to an easy to use list
 export class AggsPipe implements PipeTransform {
 
   transform(value: any, args: string, args2: string): any {

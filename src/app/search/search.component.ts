@@ -32,7 +32,6 @@ export class SearchComponent implements OnInit {
     this.getFilterableFields();
   }
 
-  //performs search on event, uses elasticsearch service
   searchPress(value: string) {
     this.value = value
 
