@@ -18,7 +18,7 @@ export class ValuesPipe implements PipeTransform {
     //loop through the object,
     //pushing values to the return array
     keyArr.forEach((key:any) => {
-      if (key != "body") {
+      if (key != "body" && key != "timestamp") {
         let retObj = {
           childValue: value[key]
         };
