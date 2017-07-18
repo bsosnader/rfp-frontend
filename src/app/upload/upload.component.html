@@ -2,7 +2,7 @@
 <app-upload-form (onSubmit)="onSubmit($event)">
 
 </app-upload-form>
-<div *ngIf="!responsebody && docResult">
+<div *ngIf="!responsebody && hasDocResult">
   <div class="spinner">
   <div class="rect1"></div>
   <div class="rect2"></div>

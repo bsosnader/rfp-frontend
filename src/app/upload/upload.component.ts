@@ -21,6 +21,7 @@ export class UploadComponent implements OnInit {
   response;
   responsebody;
   bulkRequestResponseResult;
+  hasDocResult = false;
 
   docResult: rfpDocument;
 
@@ -35,6 +36,7 @@ export class UploadComponent implements OnInit {
 
   onSubmit(doc: rfpDocument) {
     this.docResult = doc;
+    this.hasDocResult = true;
     this.postRequest();
   }
 
@@ -45,6 +47,7 @@ export class UploadComponent implements OnInit {
     this.response = undefined;
     this.responsebody = undefined;
     this.docResult = undefined;
+    this.hasDocResult = false;
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
 
@@ -55,6 +58,7 @@ export class UploadComponent implements OnInit {
     this.response = undefined;
     this.responsebody = undefined;
     this.docResult = undefined;
+    this.hasDocResult = false;
     //this.uploadFormComponent.ngOnInit();  <== i think this would also work instead of myForm.reset()
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
