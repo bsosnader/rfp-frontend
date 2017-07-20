@@ -55,13 +55,26 @@
         <li *ngFor="let x of hit.highlight | values:'key':true" class="list-group-item">
             <!--<div class="col-3" [innerHtml]="x.k"></div>--> <!-- innerHtml makes sure highlighting works properly
                                                             instead of just showing html tags as plain text-->
-            <strong>{{x.k}}: </strong><div [innerHtml]="x.childValue"></div>
+          <div *ngIf="hit.highlight.question">
+            <strong>{{x.k}} (contained): </strong><div [innerHtml]="x.childValue"></div>
+          </div>
         </li>
         <li class="list-group-item">
-          <strong>Body: </strong><div [innerHtml]="hit.highlight.body"></div>
-          <!-- body is separate here and below because the values pipe ignores
-            the body field because 1: we know there will always be a body, so there's no need to be flexible about that
-            and 2: allows us to choose exactly where we want body to be displayed (in this case, below all the other sections) -->
+          <div *ngIf="!hit.highlight.question">
+            <strong>Question (not contained): </strong><div class="results">{{hit._source.question}}</div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div *ngIf="hit.highlight.body">
+            <strong>Body (contained): </strong><div [innerHtml]="hit.highlight.body"></div>
+            <!-- body is separate here and below because the values pipe ignores
+              the body field because 1: we know there will always be a body, so there's no need to be flexible about that
+              and 2: allows us to choose exactly where we want body to be displayed (in this case, below all the other sections) -->
+          </div>
+          <!--    UNCOMMENT THIS IF YOU WANT TO SEE THE BODY REGARDLESS   -->
+          <!--div *ngIf="!hit.highlight.body">
+            <strong>Body (not contained): </strong><div class="results">{{hit._source.body}}</div>
+          </div-->
         </li>
         <li class="list-group-item">
           <ngb-accordion #acc="ngbAccordion">
