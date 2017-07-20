@@ -15,6 +15,7 @@ export class UploadFormComponent implements OnInit {
   public myForm: FormGroup;
   formResults: rfpDocument;
   @Output() onSubmit = new EventEmitter<rfpDocument>();
+  aggsObject = {};
   companyAggs = [];
   typeAggs = [];
   serviceAggs = [];
@@ -38,11 +39,10 @@ export class UploadFormComponent implements OnInit {
       ])
 
     });
-    let aggsObject = {};
-    aggsObject["company"] = {terms: {field: "companyName"}};
-    aggsObject["type"] = {terms: {field: "companyType"}};
-    aggsObject["service"] = {terms: {field:"service"}};
-    this.getAggsForUpload(aggsObject)
+    this.aggsObject["company"] = {terms: {field: "companyName"}};
+    this.aggsObject["type"] = {terms: {field: "companyType"}};
+    this.aggsObject["service"] = {terms: {field:"service"}};
+    this.getAggsForUpload(this.aggsObject);
   }
 
   fileInputReset() {
@@ -91,6 +91,9 @@ export class UploadFormComponent implements OnInit {
 
   //method to get values for keywords for use in autocomplete feature
   getAggsForUpload(aggs: Object) {
+    this.companyAggs = [];
+    this.serviceAggs = [];
+    this.typeAggs = [];
     this.eServe.getAggs(aggs)
       .then((data) => { //I *have* a really great aggs pipe that would do this for me in the html but it bizarrely and severely breaks routing so ...
         for (let x of data.aggregations.company.buckets) { //company, service, type will all have to TODO be changed in final release, to proabaly companyName, companyType, and service will be changed to something else.

@@ -20,6 +20,8 @@ export class UploadComponent implements OnInit {
   private uploadFormComponent: UploadFormComponent;
   response;
   responsebody;
+  bulkRequestResponseResult;
+  hasDocResult = false;
 
   docResult: rfpDocument;
 
@@ -34,6 +36,7 @@ export class UploadComponent implements OnInit {
 
   onSubmit(doc: rfpDocument) {
     this.docResult = doc;
+    this.hasDocResult = true;
     this.postRequest();
   }
 
@@ -43,6 +46,8 @@ export class UploadComponent implements OnInit {
     this.bulkRequest(test.stuff);
     this.response = undefined;
     this.responsebody = undefined;
+    this.docResult = undefined;
+    this.hasDocResult = false;
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
 
@@ -52,11 +57,11 @@ export class UploadComponent implements OnInit {
     console.log("You said no!");
     this.response = undefined;
     this.responsebody = undefined;
-
+    this.docResult = undefined;
+    this.hasDocResult = false;
     //this.uploadFormComponent.ngOnInit();  <== i think this would also work instead of myForm.reset()
     this.uploadFormComponent.myForm.reset();
     this.uploadFormComponent.fileInputReset();
-
   }
 
   getRequest(): void {
@@ -86,7 +91,14 @@ export class UploadComponent implements OnInit {
   bulkRequest(body: Object[]) {
     this.elasticService.putBulk(body)
       .then((resp) => {
-        console.log(resp)
+        if (!resp.errors) {
+          this.bulkRequestResponseResult = "Success!";
+        } else {
+          this.bulkRequestResponseResult = "There was an error";
+        }
+        setTimeout(() => {
+          this.uploadFormComponent.getAggsForUpload(this.uploadFormComponent.aggsObject);
+        },5000); //when we post to ES we want to get new aggs for autocomplete, but we have to wait a bit for them to get indexed
       }).catch((err) => {
         console.error(err);
       })

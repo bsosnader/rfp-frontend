@@ -2,8 +2,19 @@
 <app-upload-form (onSubmit)="onSubmit($event)">
 
 </app-upload-form>
+<div *ngIf="!responsebody && hasDocResult">
+  <div class="spinner">
+  <div class="rect1"></div>
+  <div class="rect2"></div>
+  <div class="rect3"></div>
+  <div class="rect4"></div>
+  <div class="rect5"></div>
+</div>
+</div>
 <div *ngIf="responsebody">
+  <h2>Parsed Text:</h2>
   <label>Would you like to upload this entry?</label>
+  <br >
   <button type="button" class="btn btn-default" (click)="onYes()">Yes</button>
   <button type="button" class="btn btn-default" (click)="onNo()">No</button>
 </div>
@@ -11,4 +22,7 @@
 <div *ngIf="responsebody">
   <button type="button" class="btn btn-default" (click)="onYes()">Yes</button>
   <button type="button" class="btn btn-default" (click)="onNo()">No</button>
+</div>
+<div *ngIf="bulkRequestResponseResult">
+  <h3>{{bulkRequestResponseResult}}</h3>
 </div>
